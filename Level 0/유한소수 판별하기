@@ -1,0 +1,38 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector<int> Divisor(int num) {
+    vector<int> res;
+
+    int divisor = 2;
+    while (num > 1) {
+        if (num % divisor == 0) {
+            res.push_back(divisor);
+            num /= divisor;
+        }
+        else {
+            divisor++;
+        }
+    }
+
+    return res;
+}
+
+int solution(int a, int b) {
+    vector<int> aDivisor = Divisor(a), BDivisor = Divisor(b);
+
+    for (int i = 0; i < aDivisor.size(); i++) {
+        if (find(BDivisor.begin(), BDivisor.end(), aDivisor[i]) != BDivisor.end()) {
+            BDivisor.erase(find(BDivisor.begin(), BDivisor.end(), aDivisor[i]));
+        }
+    }
+
+    for (int j = 0; j < BDivisor.size(); j++) {
+        if (BDivisor[j] != 2 && BDivisor[j] != 5) return 2;
+    }
+
+    return 1;
+}
