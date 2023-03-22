@@ -1,0 +1,43 @@
+#include <string>
+#include <vector>
+#include <sstream>
+
+using namespace std;
+
+string solution(string polynomial) {
+    string answer = "";
+    int num = 0, numX = 0;
+    stringstream ss(polynomial);
+    string s;
+
+    while (ss >> s) {
+        if (s.back() == 'x') {
+            if (s.size() == 1) numX++;
+            else {
+                string temp(s.begin(), s.end() - 1);
+                numX += stoi(temp);
+            }
+        }
+        else if ('0' < s[0] && s[0] <= '9') {
+            num += stoi(s);
+        }
+    }
+
+    if (numX && num) {
+        if (numX == 1) {
+            answer += 'x';
+            answer += " + ";
+            answer += to_string(num);
+        }
+        else  answer = to_string(numX) + 'x' + " + " + to_string(num);
+    }
+    else if (!num) {
+        if (numX == 1) answer = 'x';
+        else answer = to_string(numX) + 'x';
+    }
+    else if (!numX){
+        answer = to_string(num);
+    }
+
+    return answer;
+}
