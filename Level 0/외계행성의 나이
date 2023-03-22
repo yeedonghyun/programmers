@@ -1,0 +1,17 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(int age) {
+    string answer = "";
+    vector<int> age1;
+    while(age > 0) {
+        age1.push_back(age % 10);
+        age /= 10;
+    }
+
+    for (int i = age1.size() - 1; i >= 0; i--) answer += age1[i] + 'a';
+    
+    return answer;
+}
