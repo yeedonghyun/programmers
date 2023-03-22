@@ -1,0 +1,48 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <sstream>
+
+using namespace std;
+
+string solution(string letter) {
+    string answer = "";
+
+    map<string, char> moth;
+    moth.insert(make_pair(".-", 'a'));
+    moth.insert(make_pair("-...", 'b'));
+    moth.insert(make_pair("-.-.", 'c'));
+    moth.insert(make_pair("-..", 'd'));
+    moth.insert(make_pair(".", 'e'));
+    moth.insert(make_pair("..-.", 'f'));
+    moth.insert(make_pair("--.", 'g'));
+    moth.insert(make_pair("....", 'h'));
+    moth.insert(make_pair("..", 'i'));
+    moth.insert(make_pair(".---", 'j'));
+    moth.insert(make_pair("-.-", 'k'));
+    moth.insert(make_pair(".-..", 'l'));
+    moth.insert(make_pair("--", 'm'));
+    moth.insert(make_pair("-.", 'n'));
+    moth.insert(make_pair("---", 'o'));
+    moth.insert(make_pair(".--.", 'p'));
+    moth.insert(make_pair("--.-", 'q'));
+    moth.insert(make_pair(".-.", 'r'));
+    moth.insert(make_pair("...", 's'));
+    moth.insert(make_pair("-", 't'));
+    moth.insert(make_pair("..-", 'u'));
+    moth.insert(make_pair("...-", 'v'));
+    moth.insert(make_pair(".--", 'w'));
+    moth.insert(make_pair("-..-", 'x'));
+    moth.insert(make_pair("-.--", 'y'));
+    moth.insert(make_pair("--..", 'z'));
+
+    stringstream ss(letter);
+
+    string s;
+    while (!ss.eof()) {
+        ss >> s;
+        answer += moth[s];
+    }
+
+    return answer;
+}
