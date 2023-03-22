@@ -1,0 +1,22 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int NumOfDivisor(int _num) {
+    int cnt = 1;
+    for (int i = 2; i <= _num; i++) {
+        if (_num % i == 0) cnt++;
+    }
+    return cnt;
+}
+
+int solution(int n) {
+    int answer = 0;
+
+    for (int i = 4; i <= n; i++) {
+        if (NumOfDivisor(i) >= 3) answer++;
+    }
+
+    return answer;
+}
