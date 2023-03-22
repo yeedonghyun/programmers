@@ -1,0 +1,29 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+long long solution(int a, int b) {
+   long long answer = 0;
+    long long bigNum = 0;
+    if (a < b) {
+        bigNum = b;
+        for (long long i = a; i < b; i++) {
+            answer += i + b;
+            b--;
+        }
+        if ((a + bigNum) % 2 == 0) answer += (a + bigNum) / 2;
+
+    }
+
+    else {
+        bigNum = a;
+        for (long long j = b; j < a; j++) {
+            answer += j + a;
+            a--;
+        }
+        if ((b + bigNum) % 2 == 0) answer += (b + bigNum) / 2;
+
+    }
+    return answer;
+}
