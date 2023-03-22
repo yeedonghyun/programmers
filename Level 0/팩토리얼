@@ -1,0 +1,15 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+
+int solution(int n) {
+    int number = 1;
+
+    for (int i = 1; i <= 10; i++) {
+        number *= i;
+        if (n < number) return i - 1;
+        if (n == number) return i;
+    }
+}
