@@ -1,0 +1,29 @@
+#include <string>
+#include <vector>
+#include <sstream>
+
+using namespace std;
+
+int solution(string my_string) {
+    int answer = 0;
+    stringstream ss(my_string);
+    string temp;
+    vector<string> s;
+
+    while(ss >> temp) {
+        s.push_back(temp);
+    }
+
+    answer += stoi(s[0]);
+
+    for (int i = 1; i < s.size(); i += 2) {
+        if (s[i] == "-") {
+            answer -= stoi(s[i + 1]);
+        }
+        else {
+            answer += stoi(s[i + 1]);
+        }
+    }
+
+    return answer;
+}
