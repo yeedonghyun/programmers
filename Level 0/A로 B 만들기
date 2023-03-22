@@ -1,0 +1,19 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(string before, string after) {
+    int alpabat[26] = {};
+
+    for (int i = 0; i < before.size(); i++) {
+        alpabat[before[i] - 'a']--;
+        alpabat[after[i] - 'a']++;
+    }
+
+    for (int j = 0; j < 26; j++) {
+        if (alpabat[j] != 0) return 0;
+    }
+
+    return 1;
+}
