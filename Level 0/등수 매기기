@@ -1,0 +1,36 @@
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+
+using namespace std;
+
+using namespace std;
+
+bool Cmp(pair<float, vector<int>>& a, pair<float, vector<int>>& b)
+{
+    return a.first > b.first;
+}
+
+vector<int> solution(vector<vector<int>> score) {
+    vector<int> answer(score.size());
+    unordered_map<float, vector<int>> aver;
+
+    for (int i = 0; i < score.size(); i++) {
+        float averege = (float)(score[i][0] + score[i][1]) / 2;
+        aver[averege].push_back(i);
+    }
+
+    vector<pair<float, vector<int>>> sortAver(aver.begin(), aver.end());
+    sort(sortAver.begin(), sortAver.end(), Cmp);
+
+    int cnt = 1;
+    for (auto a : sortAver) {
+        for (int i = 0; i < a.second.size(); i++) {
+            answer[a.second[i]] = cnt;
+        }
+        cnt += a.second.size();
+    }
+
+    return answer;
+}
