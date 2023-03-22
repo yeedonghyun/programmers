@@ -1,0 +1,19 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(vector<vector<int>> dots) {
+    vector<int> minPos = { 256, 256};
+    vector<int> maxPos = { -256, -256 };
+
+    for (int i = 0; i < 3; i++) {
+        minPos[0] = min(dots[i][0], minPos[0]);
+        minPos[1] = min(dots[i][1], minPos[1]);
+
+        maxPos[0] = max(dots[i][0], maxPos[0]);
+        maxPos[1] = max(dots[i][1], maxPos[1]);
+    }
+
+    return (maxPos[0] - minPos[0])* (maxPos[1] - minPos[1]);
+}
