@@ -1,0 +1,24 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+bool CheckThree(int n) {
+    string s = to_string(n);
+    if (s.find('3') != string::npos) return true;
+    return false;
+}
+
+int solution(int n) {
+    
+    for (int i = 1; i <= n; i++) {
+        if (i % 3 == 0) {
+            n++;
+        }
+        else if (CheckThree(i)) {
+            n++;
+        }
+    }
+
+    return n;
+}
