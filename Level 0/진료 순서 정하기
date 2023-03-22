@@ -1,0 +1,30 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int MaxNumIndex(vector<int> _emergency) {
+    int maxIndex, cmp = 0, index;
+    for (int i = 0; i < _emergency.size(); i++) {
+        if (_emergency[i] > cmp) {
+            cmp = _emergency[i];
+            index = i;
+        }
+    }
+
+    return index;
+}
+
+vector<int> solution(vector<int> emergency) {
+    vector<int> answer(emergency.size());
+    int cnt = 1;
+
+    for (int i = 1; i <= emergency.size(); i++) {
+        int maxIndex = MaxNumIndex(emergency);
+        answer[maxIndex] = cnt;
+        emergency[maxIndex] = 0;
+        cnt++;
+    }
+
+    return answer;
+}
