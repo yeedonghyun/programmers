@@ -1,0 +1,21 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(vector<int> array, int n) {
+    int answer = 0;
+    int cmp = 101;
+
+    for (int i = 0; i < array.size(); i++) {
+        if (abs(array[i] - n) < cmp) {
+            cmp = abs(array[i] - n);
+            answer = array[i];
+        }
+        else if (abs(array[i] - n) == cmp && answer > array[i]) {
+            answer = array[i];
+        }
+    }
+
+    return answer;
+}
