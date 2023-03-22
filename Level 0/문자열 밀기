@@ -1,0 +1,21 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+void PushRight(string &s) {
+    string temp = { s[s.size() - 1] };
+    temp += {s.begin(), s.end() - 1};
+    s = temp;
+}
+
+int solution(string A, string B) {
+    string right = A;
+    
+    for (int i = 0; i < A.size(); i++) {
+        if (right == B) return i;
+        PushRight(right);
+    }
+
+    return -1;
+}
