@@ -1,0 +1,66 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+bool Cmp_s(string _File_01, string _File_02) {
+    string file_01_head = {}, file_02_head = {};
+    int file_01_num = 0, file_02_num = 0;
+
+    int i = 0;
+    for (; i < _File_01.size(); i++) {
+        if ('a' <= _File_01[i] && _File_01[i] <= 'z' || _File_01[i] == '.' || _File_01[i] == '-' || _File_01[i] == ' ') {
+            file_01_head += _File_01[i];
+        }
+        else if ('A' <= _File_01[i] && _File_01[i] <= 'Z') {
+            file_01_head += _File_01[i] - 'A' + 'a';
+        }
+        else break;
+    }
+    int tempIndex = i;
+    while (1) {
+        if (tempIndex - i == 5) break;
+        else if ('0' <= _File_01[tempIndex] && _File_01[tempIndex] <= '9') {
+            file_01_num = (_File_01[tempIndex] - '0') + file_01_num * 10;
+            tempIndex++;
+        }
+        else break;
+    }
+
+
+    int j = 0;
+    for (; j < _File_02.size(); j++) {
+        if ('a' <= _File_02[j] && _File_02[j] <= 'z' || _File_02[j] == '.' || _File_02[j] == '-' || _File_02[j] == ' ') {
+            file_02_head += _File_02[j];
+        }
+        else if ('A' <= _File_02[j] && _File_02[j] <= 'Z') {
+            file_02_head += _File_02[j] - 'A' + 'a';
+        }
+        else break;
+    }
+
+    tempIndex = j;
+    while (1) {
+        if (tempIndex - j == 5) break;
+        else if ('0' <= _File_02[tempIndex] && _File_02[tempIndex] <= '9') {
+            file_02_num = (_File_02[tempIndex] - '0') + file_02_num * 10;
+            tempIndex++;
+        }
+        else break;
+    }
+
+    if (file_01_head > file_02_head) return false;
+    else if (file_01_head < file_02_head) return true;
+    else if (file_01_num > file_02_num) return false;
+    else if(file_01_num < file_02_num) return true;
+    else return false;
+
+}
+
+
+vector<string> solution(vector<string> files) {
+
+    stable_sort(files.begin(), files.end(), Cmp_s);
+
+    return files;
+}
