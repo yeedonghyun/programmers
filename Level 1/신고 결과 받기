@@ -1,0 +1,64 @@
+#include <string>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+vector<int> solution(vector<string> id_list, vector<string> report, int k) {
+    vector<int> answer;
+	unordered_map<string, vector<string>> list;
+	unordered_map<string, int> reportCnt;
+
+	for (int i = 0; i < id_list.size(); i++)
+	{
+		list.insert(make_pair(id_list[i], 0));
+		reportCnt.insert(make_pair(id_list[i], 0));
+		answer.push_back(0);
+	}
+
+	for (int j = 0; j < report.size(); j++) {
+		
+		string id = {}, reportId = {};
+		int index = 0;
+		bool null = false;
+
+		while (index < report[j].size()) {
+
+			if (report[j][index] == ' ') {
+				null = true;
+				index++;
+			}
+			if (!null) {
+				id += report[j][index];
+			}
+
+			else {
+				reportId += report[j][index];
+			}
+
+			index++;
+		}
+		int k;
+		for (k = 0; k < list[id].size(); k++) {
+			if(list[id][k] == reportId) break;
+		}
+
+		if (k == list[id].size()) {
+			list[id].push_back(reportId);
+			reportCnt[reportId]++;
+		}
+	}
+
+	for (int i = 0; i < id_list.size(); i++) {
+		for (int j = 0; j < list[id_list[i]].size(); j++){
+
+			if (reportCnt[list[id_list[i]][j]] >= k) {
+				answer[i]++;
+			}
+		}
+		
+	}
+
+
+	return answer;
+}
