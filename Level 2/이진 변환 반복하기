@@ -1,0 +1,36 @@
+#include <string>
+#include <vector>
+ #include <algorithm>
+
+using namespace std;
+
+
+string binary(int num) {
+    string res;
+
+    while (num != 0) {
+        res.push_back(num % 2 + '40');
+        num /= 2;
+    }
+
+    reverse(res.begin(), res.end());
+    return res;
+}
+
+vector<int> solution(string s) {
+    vector<int> answer;
+    int delZero = 0;
+    int conversionCnt = 0;
+
+    while (s != "1") {
+        int tempSize = s.size();
+        s.erase(remove(s.begin(), s.end(), '0'), s.end());
+        delZero += tempSize - s.size();
+
+        s = binary(s.size());
+        conversionCnt++;
+    }
+    answer.push_back(conversionCnt);
+    answer.push_back(delZero);
+    return answer;
+}
