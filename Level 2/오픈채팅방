@@ -1,0 +1,54 @@
+#include <string>
+#include <vector>
+#include <sstream>
+#include <unordered_map>
+
+using namespace std;
+
+
+vector<string> solution(vector<string> record) {
+    vector<string> msg;
+    unordered_map<string, pair<string, vector<unsigned long>>> user;
+    
+    for (int i = 0; i < record.size(); i++) {
+        string sState, sId, sName;
+        stringstream stream(record[i]);
+        stream >> sState >> sId >> sName;
+
+        if (sState == "Enter") {
+            if (user.find(sId) == user.end()) {
+                vector<unsigned long> index = { msg.size() };
+                user.insert(make_pair(sId, make_pair(sName, index)));
+            }
+            else {
+                user[sId].first = sName;
+                user[sId].second.push_back(msg.size());
+            }
+            msg.push_back("님이 들어왔습니다.");
+        }
+
+        else if (sState == "Change") {
+            user[sId].first = sName;
+        }
+
+        else {
+            vector<unsigned long> index = { msg.size() };
+            user[sId].second.push_back(msg.size());
+            msg.push_back("님이 나갔습니다.");
+        }
+    }
+
+    vector<string> answer(msg.size(), "");
+   for (auto a : user) {
+        for (int j = 0; j < a.second.second.size(); j++) {
+
+            string temp = "";
+            temp += a.second.first;
+            temp += msg[a.second.second[j]];
+
+            answer[a.second.second[j]] = temp;
+        }
+    }
+
+    return answer;
+}
