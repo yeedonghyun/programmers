@@ -1,0 +1,14 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(vector<vector<int>> sizes) {
+    int w = 0, h = 0;
+    
+    for (int j = 0; j < sizes.size(); j++) {
+        w = max(w, min(sizes[j][0], sizes[j][1]));
+        h = max(h, max(sizes[j][0], sizes[j][1]));
+    }
+    return w * h;
+}
