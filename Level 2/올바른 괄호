@@ -1,0 +1,19 @@
+#include<string>
+#include <iostream>
+
+using namespace std;
+
+bool solution(string s)
+{
+	if (s[0] == ')') return false;
+	int openCnt = 1;
+	for (int i = 1; i < s.size(); i++) {
+		if (s[i] == '(') openCnt++;
+		else if (s[i] == '(' && openCnt != 0) return false;
+		else openCnt--;
+		if (openCnt < 0) return false;
+	}
+
+	if (openCnt != 0) return false;
+	return true;
+}
