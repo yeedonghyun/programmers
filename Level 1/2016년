@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+char* solution(int a, int b) {
+    char* answer = (char*)malloc(sizeof(char) * 3);
+    char* week[7] = { "THU","FRI","SAT","SUN","MON","TUE","WED" };
+    int MAX_DAY[12] = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    int cnt = 0;
+    
+   for (int month = 1; month <= 12; month++) {
+        for (int day = 1; day <= MAX_DAY[month-1]; day++) {
+            if (month == a && day == b) {
+                cnt++;
+                break;
+            }
+            cnt++;
+        }
+        if(month == a)   break;
+    }
+    answer = week[cnt % 7];
+    return answer;
+}
