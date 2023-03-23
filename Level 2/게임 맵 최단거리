@@ -1,0 +1,47 @@
+#include <vector>
+#include <string>
+#include <queue>
+
+using namespace std;
+
+struct playerPos
+{
+    int y;
+    int x;
+    int numOfPassBySquare;
+};
+
+int solution(vector<vector<int>> maps)
+{
+    int answer = -1;
+    int mapSize[2] = {  static_cast<int>(maps.size()) - 1,  static_cast<int>(maps[0].size()) - 1};
+    int offSet_Y[4] = { 1, 0, -1, 0 };
+    int offSet_X[4] = { 0, 1, 0, -1 };
+
+    queue<playerPos> player;
+    
+    player.push({0, 0, 1});
+    maps[0][0] = 0;
+
+    while (!player.empty()) {
+        playerPos curPos = player.front();
+        player.pop();
+        
+        if (curPos.y == mapSize[0] && mapSize[1] == curPos.x) {
+            answer = curPos.numOfPassBySquare;
+            break;
+        }
+
+        for (int i = 0; i < 4; i++) {
+            playerPos tempPos({curPos.y + offSet_Y[i], curPos.x + offSet_X[i], curPos.numOfPassBySquare + 1});
+
+            if (tempPos.y < 0 || tempPos.x < 0 || tempPos.y > mapSize[0] || tempPos.x > mapSize[1]) continue;
+            if (!maps[tempPos.y][tempPos.x]) continue;
+
+            maps[tempPos.y][tempPos.x] = 0;
+            player.push(tempPos);
+        }
+    }
+
+    return answer;
+}
