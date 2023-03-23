@@ -1,0 +1,20 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(string t, string p) {
+    int answer = 0;
+    int pSize = p.size();
+
+    for (int i = 0; i < t.size() - pSize + 1; i++) {
+        string temp = "";
+        for (int j = 0; j < pSize; j++) {
+            temp += t[i + j];
+        }
+        if (temp <= p) answer++;
+    }
+
+    return answer;
+}
+
