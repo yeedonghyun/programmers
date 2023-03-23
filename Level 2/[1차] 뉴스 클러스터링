@@ -1,0 +1,88 @@
+#include <string>
+#include <queue>
+#include <unordered_map>
+#include <algorithm>
+
+using namespace std;int solution(string str1, string str2) {
+    int answer = 0;
+
+    unordered_map<string, int> set1, set2;
+    queue<char> q1, q2;
+
+    for (int i = 0; i < str1.size(); i++) {
+        if ('a' <= str1[i] && str1[i] <= 'z' || 'A' <= str1[i] && str1[i] <= 'Z') {
+            str1[i] = tolower(str1[i]);
+            if (q1.empty()) {
+                q1.push(str1[i]);
+            }
+            else {
+                string temp = "";
+                temp += q1.front();
+                temp += str1[i];
+                if (set1.find(temp) == set1.end()) set1.insert(make_pair(temp, 1));
+                else set1[temp]++;
+                
+                q1.pop();
+                q1.push(str1[i]);
+            }
+        }
+        else {
+            str1.erase(str1.begin() + i);
+            i--;
+            if (!q1.empty()) q1.pop();
+        }
+    }
+    for (int i = 0; i < str2.size(); i++) {
+        if ('a' <= str2[i] && str2[i] <= 'z' || 'A' <= str2[i] && str2[i] <= 'Z') {
+            str2[i] = tolower(str2[i]);
+            if (q2.empty()) {
+                q2.push(str2[i]);
+            }
+            else {
+                string temp = "";
+                temp += q2.front();
+                temp += str2[i];
+                if (set2.find(temp) == set2.end()) set2.insert(make_pair(temp, 1));
+                else  set2[temp]++;
+                
+                q2.pop();
+                q2.push(str2[i]);
+            }
+        }
+        else {
+            str2.erase(str2.begin() + i);
+            i--;
+            if (!q2.empty()) q2.pop();
+        }
+    }
+
+    if(set1.empty() && set2.empty()) return 65536;
+
+    float sum = 0;
+    float cnt = 0;
+
+    for (auto elem : set1) {
+        sum += elem.second;
+    }
+    for (auto elem : set2) {
+        sum += elem.second;
+    }
+
+    for (auto elem : set2) {
+        if (set1.find(elem.first) == set1.end()) {
+            set1.insert(make_pair(elem.first, elem.second));
+        }
+        else {
+            if (set1[elem.first] <= elem.second) {
+                set1[elem.first] = elem.second;
+            }
+        }
+    }
+
+    for (auto elem : set1) {
+        cnt += elem.second;
+    }
+
+    int res = (sum - cnt) / cnt * 65536;
+    return res;
+}
