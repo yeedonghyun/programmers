@@ -1,0 +1,21 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> solution(vector<int> arr) {
+    vector<int> arr1;
+    arr1.assign(1, -1);
+    if (arr.size() == 1) {
+        return arr1;
+    }
+    int address = 0;
+    for (int i = 0; i < arr.size(); i++) {
+        if (arr[address] > arr[i])
+            address = i;
+    }
+    vector<int>::iterator iter = arr.begin();
+
+    arr.erase(iter + address);
+    return arr;
+}
