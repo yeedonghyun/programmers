@@ -1,0 +1,46 @@
+#include <string>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+int solution(vector<string> want, vector<int> number, vector<string> discount) {
+    int answer = 0;
+    unordered_map<string, int> wantList;
+    unordered_map<string, int> WantListCnt;
+    unordered_map<string, int> initWantList;
+
+    for (int i = 0; i < want.size(); i++) {
+        wantList.insert(make_pair(want[i], number[i]));
+        initWantList.insert(make_pair(want[i], 0));
+        WantListCnt.insert(make_pair(want[i], 0));
+    }
+
+    for (int j = 0; j <= discount.size() - 10; j++) {
+        int k = j;
+        for (; k < j + 10; k++) {
+            if (WantListCnt.find(discount[k]) == WantListCnt.end()) {
+                WantListCnt = initWantList;
+                j += k - 1;
+                break;
+            }
+            else WantListCnt[discount[k]]++;
+            if (WantListCnt[discount[k]] > wantList[discount[k]]) {
+                WantListCnt = initWantList;
+                break;
+            }
+        }
+
+        WantListCnt = initWantList;
+        if (k == j + 10) {
+            answer++;
+            while (1) {
+                if (j == discount.size() - 10 || discount[j] != discount[j + 10]) break;
+                answer++;
+                j++;
+            }
+        }
+    }
+
+    return answer;
+}
