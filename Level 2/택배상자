@@ -1,0 +1,36 @@
+#include <string>
+#include <vector>
+#include <stack>
+
+using namespace std;
+
+int solution(vector<int> order) {
+    stack<int> truk, container;
+    int parcel = 1;
+    int index = 0;
+    while (1) {
+        if (!container.empty() && container.top() != order[index] && truk.size() + container.size() == order.size() || truk.size() == order.size()) {
+            break;
+        }
+        else if (!container.empty() && container.top() == order[index]) {
+            truk.push(container.top());
+            container.pop();
+        }
+        else if (order[index] == parcel) {
+            truk.push(parcel);
+            index++;
+            while (!container.empty() && container.top() == order[index]) {
+                truk.push(container.top());
+                container.pop();
+                index++;
+            }
+        }
+        else {
+            container.push(parcel);
+        }
+        parcel++;
+    }
+
+
+    return truk.size();
+}
