@@ -1,0 +1,33 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+vector<int> decimalToBinary(int number, int size) {
+	vector<int> binary;
+	for (int i = size - 1; i >= 0; i--) {
+		binary.push_back(number >> i & 1);
+	}
+	return binary;
+}
+
+
+vector<string> solution(int n, vector<int> arr1, vector<int> arr2) {
+    vector<string> answer;
+
+	for (int i = 0; i < n; i++) {
+		string line = {};
+		vector<int> a = decimalToBinary(arr1[i], n);
+		vector<int> b = decimalToBinary(arr2[i], n);
+
+		for (int j = 0; j < n; j++) {
+
+			if (a[j] == 1 || b[j] == 1) line += '#';
+			else line += ' ';
+		}
+
+		answer.push_back(line);
+	}
+	
+
+	return answer;
+}
