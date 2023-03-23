@@ -1,0 +1,39 @@
+#include <string>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+
+int solution(int k, int m, vector<int> score) {
+    int answer = 0;
+    int num = 0;
+    unordered_map<int, int> apple;
+
+    for (int i = 0; i < score.size(); i++) {
+        if (apple.find(score[i]) == apple.end()) {
+            apple.insert(make_pair(score[i], 1));
+        }
+        else apple[score[i]]++;
+    }
+
+    for (int j = k; j > 0; j--) {
+
+        if (m == num + apple[j]) {
+            num += apple[j];
+            answer += num * j;
+            num = 0;
+        }
+        else if (m > num + apple[j]) {
+            num += apple[j];
+        }
+        else {
+            answer += m * j;
+            apple[j] = apple[j] + num - m;
+            num = 0;
+            j++;
+        }
+    }
+
+    return answer;
+}
