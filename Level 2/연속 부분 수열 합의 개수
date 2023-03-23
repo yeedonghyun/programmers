@@ -1,0 +1,22 @@
+#include <string>
+#include <vector>
+#include <set>
+
+using namespace std;
+
+int solution(vector<int> elements) {
+    set<int> res;
+
+    for (int i = 1; i <= elements.size(); i++) {
+        for (int j = 0; j < elements.size(); j++) {
+            int add = 0;
+            for (int k = j; k < j + i; k++) {
+                if(k >= elements.size()) add+= elements[k - elements.size()];
+                else add += elements[k];
+            }
+            res.insert(add);
+        }
+    }
+
+    return res.size();
+}
