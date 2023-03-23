@@ -1,0 +1,55 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+struct locationData {
+    string minPos, maxPos;
+};
+
+bool isPastRoad(vector<locationData> dataTabel, locationData searchData) {
+    for (int i = 0; i < dataTabel.size(); i++) {
+        locationData temp = dataTabel[i];
+        if (temp.maxPos == searchData.maxPos && searchData.minPos == temp.minPos) return true;
+    }
+    return false;
+}
+
+int solution(string dirs) {
+    int answer = 0;
+
+    string curLocation = "00";
+    string moveLocation = "00";
+
+    vector<locationData>dataTabel;
+
+    for (int i = 0; i < dirs.size(); i++) {
+        locationData tempData;
+
+        if (dirs[i] == 'R') moveLocation[0] = curLocation[0] + 1;
+        else if (dirs[i] == 'L') moveLocation[0] = curLocation[0] - 1;
+        else if (dirs[i] == 'U') moveLocation[1] = curLocation[1] + 1;
+        else moveLocation[1] = curLocation[1] - 1;
+        if (moveLocation[1] == '6' || moveLocation[0] == '6' || moveLocation[1] == '*' || moveLocation[0] == '*') {
+            moveLocation = curLocation;
+            continue;
+        }
+
+        if (moveLocation[0] > curLocation[0] || moveLocation[1] > curLocation[1]) {
+            tempData.minPos = curLocation;
+            tempData.maxPos = moveLocation;
+        }
+        else {
+            tempData.minPos = moveLocation;
+            tempData.maxPos = curLocation;
+        }
+
+        if (!isPastRoad(dataTabel, tempData)) {
+            dataTabel.push_back(tempData);
+            answer++;
+        }
+        
+        curLocation = moveLocation;
+    }
+
+    return answer;
+}
