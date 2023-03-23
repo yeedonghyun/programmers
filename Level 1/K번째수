@@ -1,0 +1,28 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector<int> cutVector(vector<int> array, int min, int max) {
+
+    vector<int> res;
+    
+    for (; min < max; min++) {
+        res.push_back(array[min]);
+    }
+
+    return res;
+}
+
+vector<int> solution(vector<int> array, vector<vector<int>> commands) {
+    vector<int> answer, temp;
+    for (int i = 0; i < commands.size(); i++) {
+
+        temp = cutVector(array, commands[i][0] - 1, commands[i][1]);
+        sort(temp.begin(), temp.end());
+
+        answer.push_back(temp[commands[i][2] - 1]);
+    }
+    return answer;
+}
