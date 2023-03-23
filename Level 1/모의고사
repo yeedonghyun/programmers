@@ -1,0 +1,40 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> solution(vector<int> answers) {
+     vector <int> mathPlayer_1 = { 1,2,3,4,5 };
+    vector <int> mathPlayer_2 = { 2,1,2,3,2,4,2,5 };
+    vector <int> mathPlayer_3 = { 3,3,1,1,2,2,4,4,5,5 };
+    
+    int cnt[3] = { 0,0,0 };
+
+    for (int i = 0; i < answers.size(); i++) {
+        if (answers[i] == mathPlayer_1[i % mathPlayer_1.size()]) {
+            cnt[0]++;
+        }
+        if (answers[i] == mathPlayer_2[i % mathPlayer_2.size()]) {
+            cnt[1]++;
+        }
+        if (answers[i] == mathPlayer_3[i % mathPlayer_3.size()]) {
+            cnt[2]++;
+        }
+    }
+    vector <int> answer;
+    int maxCnt = 0;
+    int j;
+    for (j = 0; j < 3; j++) {
+        if (maxCnt<= cnt[j]) {
+            maxCnt = cnt[j];
+        }
+    }
+
+    for (j = 0; j < 3; j++) {
+        if (maxCnt == cnt[j]) {
+            answer.push_back(j+1);
+        }
+    }
+
+    return answer;
+}
