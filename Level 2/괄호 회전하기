@@ -1,0 +1,55 @@
+#include <string>
+#include <stack>
+#include <queue>
+
+using namespace std;
+int solution(string s) {
+    int answer = 0;
+   
+    if (s.size() % 2 == 1) return 0;
+
+    for (int i = 0; i < s.size(); i++) {
+        int nNumSquareBrackets = 0; //[]
+        int nNumCurlyBrackets = 0; //{}
+        int nNumparentheses = 0; //()
+        stack<char> stack;
+        
+        for (int j = i; j < s.size() + i; j++) {
+            char temp;
+            if (j >= s.size()) temp=s[j - s.size()];
+            else temp=s[j];
+
+            if (temp == '[') {
+                nNumSquareBrackets++;
+                stack.push(temp);
+            }
+            else if (temp == '{') {
+                nNumCurlyBrackets++;
+                stack.push(temp);
+            }
+            else if (temp == '(') {
+                nNumparentheses++;
+                stack.push(temp);
+            }
+            else if (stack.size() != 0 && temp == ']' && stack.top() == '[') {
+                stack.pop();
+                nNumSquareBrackets--;
+            }
+            else if (stack.size() != 0 && temp == '}' && stack.top() == '{')
+            {
+                stack.pop();
+                nNumCurlyBrackets--;
+            }
+            else if (stack.size() != 0 && temp == ')' && stack.top() == '(') {
+                stack.pop();
+                nNumparentheses--;
+            }
+
+            if (nNumSquareBrackets == -1 || nNumCurlyBrackets == -1 || nNumparentheses == -1) break;
+        }
+        if (stack.empty() && nNumSquareBrackets == 0 && nNumCurlyBrackets == 0 && nNumparentheses == 0) answer++;
+
+    }
+
+    return answer;
+}
