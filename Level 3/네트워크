@@ -1,0 +1,49 @@
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+#include <stack>
+
+using namespace std;
+
+int solution(int n, vector<vector<int>> computers) {
+    int numOfNet = 0;
+    unordered_map<int, vector<int>> connection;
+    vector<bool> visit(n, false);
+
+    if (n == 1) return 1;
+
+    for (int i = 0; i < n; i++) {
+        stack<int> temp;
+        if (!visit[i]) {
+            connection[i].push_back(i);
+            visit[i] = true;
+            for (int j = i + 1; j < n; j++) {
+                if (computers[i][j] && !visit[j]) {
+                    connection[i].push_back(j);
+                    temp.push(j);
+                    visit[j] = true;
+                }
+            }
+
+            while (!temp.empty()) {
+                int computer = temp.top();
+                temp.pop();
+
+                if (find(connection[i].begin(), connection[i].end(), computer) == connection[i].end()) {
+                    connection[i].push_back(computer);
+                }
+                for (int j = 0; j < n; j++) {
+                    if (!visit[j] && j != computer && computers[computer][j] && 
+                            find(connection[i].begin(), connection[i].end(), j) == connection[i].end()) {
+                        connection[i].push_back(j);
+                        temp.push(j);
+                        visit[j] = true;
+                    }
+                }
+            }
+        }
+    }
+    
+    return connection.size();
+}
