@@ -1,0 +1,35 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(string s) {
+    int answer = 1;
+    char x = s[0];
+    int numOfX = 1;
+    int numOfNotX = 0;
+
+    for (int i = 1; i < s.size(); i++) {
+        if (x == s[i]) {
+            numOfX++;
+        }
+        else if (x != s[i]) {
+            numOfNotX++;
+            if (numOfX == numOfNotX) {
+                answer++;
+                if (i + 1 >= s.size()) {
+                    answer--;
+                    break;
+                }
+                else {
+                    x = s[i + 1];
+                    numOfX = 1;
+                    numOfNotX = 0;
+                    i++;
+                }
+            }
+        }
+    }
+
+    return answer;
+}
