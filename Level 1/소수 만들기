@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+bool isDecimal(int num) {
+	for (int i = 2; i * i <= num; i++) {
+		if (num % i == 0) return false;
+	}
+	return true;
+}
+
+int solution(int nums[], size_t nums_len) {
+    int answer = 0;
+	int firstIndex = 0;
+	int secondIndex = 1;
+	int thirdIndex = 2;
+
+	while (firstIndex != nums_len - 2) {
+		int sum = nums[firstIndex] + nums[secondIndex] + nums[thirdIndex];
+		if(isDecimal(sum)) answer++;
+
+		if (thirdIndex != nums_len - 1) {
+			thirdIndex++;
+		}
+		else if (secondIndex != nums_len - 2) {
+			secondIndex++;
+			thirdIndex = secondIndex + 1;
+		}
+		else {
+			firstIndex++;
+			secondIndex = firstIndex + 1;
+			thirdIndex = firstIndex + 2;
+		}
+	}
+
+	return answer;
+}
