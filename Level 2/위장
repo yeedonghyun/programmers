@@ -1,0 +1,21 @@
+#include <string>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+int solution(vector<vector<string>> clothes) {
+    int answer = 1;
+    unordered_map<string, int> clothesPerType;
+
+    for (int i = 0; i < clothes.size(); i++) {
+        if (clothesPerType.insert(make_pair(clothes[i][1], 1)).second);
+        else  clothesPerType[clothes[i][1]]++;
+    }
+
+    for (auto elem : clothesPerType) {
+        answer *= (elem.second + 1);
+    }
+    answer--;
+    return answer;
+}
