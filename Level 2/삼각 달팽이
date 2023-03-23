@@ -1,0 +1,54 @@
+#include <string>
+#include <cmath>
+#include <vector>
+
+using namespace std;
+vector<int> solution(int n) {
+    vector<int> answer;
+    vector<vector<int>> arr(n);
+
+    int endNumber = 0;
+    for (int i = 0; i < n; i++) {
+        arr[i].assign(i + 1, 0);
+        endNumber += i + 1;
+    }
+
+    int number = 1;
+    int rowCnt = 0;
+    int columnCnt = 1;
+    int diagonalCnt = 0;
+
+    while(1) {
+        for (int i = rowCnt; i < n - rowCnt / 2; i++) {
+            if (number > endNumber) break;
+            arr[i][rowCnt / 2] = number;
+            number++;
+        }
+
+
+        for (int j = columnCnt; j < arr[arr.size() - columnCnt].size() - rowCnt / 2; j++) {
+            if (number > endNumber) break;
+            arr[n - columnCnt][j] = number;
+            number++;
+        }
+
+        for (int k = n - 2 - rowCnt / 2; k > diagonalCnt; k--) {
+            if (number > endNumber) break;
+            arr[k][arr[k].size() - columnCnt] = number;
+            number++;
+        }
+
+        if (number > endNumber) break;
+        rowCnt += 2;
+        columnCnt++;
+        diagonalCnt += 2;
+    }
+
+    for (int i = 0; i < arr.size(); i++) {
+        for (int j = 0; j < arr[i].size(); j++) {
+            answer.push_back(arr[i][j]);
+        }
+    }
+
+    return answer;
+}
