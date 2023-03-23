@@ -1,0 +1,59 @@
+#include <string>
+#include <cmath>
+
+using namespace std;
+
+int solution(string dartResult) {
+int chance[3] = { 0,0,0 };
+	int cnt = 0;
+	for (int i = 0; i < 3; i++) {
+		
+		int score = dartResult[cnt] - 48;
+
+		if (dartResult[cnt + 1] == '0') {
+			score = 10;
+            cnt++;
+		}
+		cnt++;
+
+		switch (dartResult[cnt])
+		{
+		case 'D':
+			score = pow(score, 2);
+			cnt++;
+			break;
+
+		case 'T':
+			score = pow(score, 3);
+			cnt++;
+			break;
+
+		default:
+			cnt++;
+			break;
+		}
+
+		switch (dartResult[cnt])
+		{
+		case '*':
+			if (i == 0) {
+				score *= 2;
+			}
+			else {
+				chance[i - 1] *= 2;
+				score *= 2;
+			}
+			cnt++;
+			break;
+
+		case '#':
+			score *= -1;
+			cnt++;
+			break;
+		}
+		chance[i] = score;
+	}
+
+	int answer = chance[0] + chance[1] + chance[2];
+	return answer;
+}
