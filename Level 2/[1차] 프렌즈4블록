@@ -1,0 +1,65 @@
+
+int answer = 0;
+
+bool CheckBlock(int _h, int _w, vector<string> board) {
+    if (board[_h][_w] == board[_h + 1][_w] && board[_h][_w] == board[_h][_w + 1] && board[_h][_w] == board[_h + 1][_w + 1] && board[_h][_w] != '0') return true;
+    return false;
+}
+
+void EraseBlock(pair<int, int> _index, vector<string>& _board) {
+    if (_board[_index.first][_index.second] != '0') {
+        _board[_index.first][_index.second] = '0';
+        answer++;
+    }
+    if (_board[_index.first + 1][_index.second] != '0') {
+        _board[_index.first + 1][_index.second] = '0';
+        answer++;
+    }
+    if (_board[_index.first][_index.second + 1] != '0') {
+        _board[_index.first][_index.second + 1] = '0';
+        answer++;
+    }
+    if (_board[_index.first + 1][_index.second + 1] != '0') {
+        _board[_index.first + 1][_index.second + 1] = '0';
+        answer++;
+    }
+}
+
+void DownBlock(vector<string>& _board) {
+    for (int i = _board.size() - 1; i >= 0; i--) {
+        for (int j = 0; j < _board.size(); j++) {
+            if (_board[i][j] == '0') {
+                for (int h = i; h >= 0; h--) {
+                    if (_board[h][j] != '0') {
+                        _board[i][j] = _board[h][j];
+                        _board[h][j] = '0';
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+int solution(int m, int n, vector<string> board) {
+
+    while (1) {
+        int h = 0, w = 0;
+        vector<pair<int,int>> indexOfEraseBlock;
+        while (1) {
+            if (CheckBlock(h, w, board)) indexOfEraseBlock.push_back(make_pair(h, w));
+            w++;
+            if (w == n - 1 && h == m - 2) break;
+            else if (w == n - 1) {
+                h++;
+                w = 0;
+            }
+        }
+
+        if (indexOfEraseBlock.size() == 0) break;
+        else for (int i = 0; i < indexOfEraseBlock.size(); i++) EraseBlock(indexOfEraseBlock[i], board);
+        DownBlock(board);
+    }
+
+    return answer;
+}
