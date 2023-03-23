@@ -1,0 +1,23 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(int n, int m, vector<int> section) {
+    int answer = 0, index = 0, cmp = section[0] + m;
+
+    while (1) {
+        if (cmp <= section[index]) {
+            answer++;
+            cmp = section[index] + m;
+        }
+        index++;
+
+        if (index == section.size()) {
+            answer++;
+            break;
+        }
+    }
+
+    return answer;
+}
