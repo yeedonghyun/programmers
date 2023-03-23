@@ -1,0 +1,66 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+bool Cmp(string a, string b) {
+		double A = 0, B = 0;
+
+	double index = 1;
+	if (a == "0") A = 0;
+	else if (a[0] == '-') {
+		for (int i = a.size() - 1; i > 0; i--) {
+			A += -(a[i] - '0') * index;
+			index *= 10;
+		}
+	}
+	else {
+		for (int i = a.size() - 1; i >= 0; i--) {
+			A += (a[i] - '0') * index;
+			index *= 10;
+		}
+
+	}
+
+	index = 1;
+	if (b == "0") B = 0;
+	else if (b[0] == '-') {
+		for (int i = b.size() - 1; i > 0; i--) {
+			B += -(b[i] - '0') * index;
+			index *= 10;
+		}
+	}
+
+	else {
+		for (int i = b.size() - 1; i >= 0; i--) {
+			B += (b[i] - '0') * index;
+			index *= 10;
+		}
+	}
+	return A < B;
+}
+
+string solution(string s) {
+	string answer = "";
+	vector<string> res;
+	string temp = "";
+	for (int i = 0; i < s.size(); i++) {
+		if (i == s.size() - 1) {
+			temp += s[i];
+			res.push_back(temp);
+		}
+		else if (s[i] == ' ') {
+			res.push_back(temp);
+			temp = "";
+		}
+		else {
+			temp += s[i];
+		}
+	}
+	sort(res.begin(), res.end(), Cmp);
+
+	answer += res[0] + ' ' + res[res.size() - 1];
+
+	return answer;
+}
