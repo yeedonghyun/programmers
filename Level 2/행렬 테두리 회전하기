@@ -1,0 +1,59 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int Rotation(int rows, int columns, vector<int> queries, vector<vector<int>> *arr) {
+    int smallNum = 1000000;
+    int column = queries[0] - 1, row;
+    int cur, pre = arr->at(column).at(queries[1] - 1);
+
+    for (row = queries[1] - 1; row < queries[3] - 1; row++) {
+        if (pre < smallNum) smallNum = pre;
+        cur = arr->at(column).at(row + 1);
+        arr->at(column).at(row + 1) = pre;
+        pre = cur;
+    }
+    
+    for (column = queries[0] - 1; column < queries[2] - 1; column++) {
+        if (pre < smallNum) smallNum = pre;
+        cur = arr->at(column + 1).at(row);
+        arr->at(column + 1).at(row ) = pre;
+        pre = cur;
+    }
+
+    for (row = queries[3] - 1; row > queries[1] - 1; row--) {
+        if (pre < smallNum) smallNum = pre;
+        cur = arr->at(column).at(row - 1);
+        arr->at(column).at(row - 1) = pre;
+        pre = cur;
+    }
+
+    for (column = queries[2] - 1; column > queries[0] - 1; column--) {
+        if (pre < smallNum) smallNum = pre;
+        cur = arr->at(column - 1).at(row);
+        arr->at(column - 1).at(row) = pre;
+        pre = cur;
+    }
+
+    return smallNum;
+}
+
+vector<int> solution(int rows, int columns, vector<vector<int>> queries) {
+    vector<int> answer;
+    vector<vector<int>> arr;
+
+    int cnt = 1;
+
+    for (int i = 0; i < rows; i++) {
+        arr.push_back(answer);
+        for (int j = 0; j < columns; j++) {
+            arr[i].push_back(cnt);
+            cnt++;
+        }
+    }
+
+    for (int k = 0; k < queries.size(); k++) answer.push_back(Rotation(rows, columns, queries[k], &arr));
+
+    return answer;
+}
