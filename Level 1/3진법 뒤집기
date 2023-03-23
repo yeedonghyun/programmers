@@ -1,0 +1,21 @@
+#include <string>
+#include <vector>
+#include <cmath>
+
+using namespace std;
+
+int solution(int n) {
+    int answer = 0;
+    int cnt = 0;
+
+    vector<int> trit;
+    while (n >= 1) {
+        trit.push_back(n % 3);
+        n /= 3;
+    }
+    for (int i = trit.size(); i > 0; i--) {
+        answer += trit[i-1] * pow(3, cnt);
+        cnt++;
+    }
+    return answer;
+}
