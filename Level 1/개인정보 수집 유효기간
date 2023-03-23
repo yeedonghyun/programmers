@@ -1,0 +1,48 @@
+#include <string>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+vector<int> solution(string today, vector<string> terms, vector<string> privacies) {
+    vector<int> answer;
+    unordered_map<char, string> limit;
+
+    for (int i = 0; i < terms.size(); i++) {
+        string month(terms[i].begin() + 2, terms[i].end());
+        limit.insert(make_pair(terms[i][0], month));
+    }
+
+    for (int j = 0; j < privacies.size(); j++) {
+        string temp;
+        string year(privacies[j].begin(), privacies[j].begin() + 4),
+                month(privacies[j].begin() + 5, privacies[j].begin() + 7), 
+                day(privacies[j].begin() + 8, privacies[j].begin() + 10);
+        
+        string epxiryDat = limit[privacies[j][privacies[j].size() - 1]];
+        
+        int iYear = stoi(year) + (stoi(month) + stoi(epxiryDat)) / 12;
+        int iMonth = (stoi(month) + stoi(epxiryDat)) % 12;
+        int iDay = stoi(day);
+
+        if (iMonth == 0) {
+            iYear--;
+            iMonth = 12;
+        }
+        if (iDay - 1 == 0) {
+            iMonth--;
+            iDay = 28;
+        }
+        else iDay--;
+
+        if (iDay < 10) day = '0' + to_string(iDay);
+        else  day = to_string(iDay);
+
+        if(iMonth >= 10) temp = to_string(iYear) + '.' + to_string(iMonth) + '.' + day;
+        else temp = to_string(iYear) + ".0" + to_string(iMonth) + '.' + day;
+
+        if (temp < today) answer.push_back(j + 1);
+    }
+
+    return answer;
+}
