@@ -1,0 +1,36 @@
+#include <string>
+#include <vector>
+#include <ctype.h>
+#include <string.h>
+
+using namespace std;
+
+string solution(string s) {
+    
+    char cbuf[1000];
+    string answer;
+    vector<char> res;
+    int cnt = 0;
+    
+    strcpy(cbuf, s.c_str());
+
+    for (int i = 0; i < s.length(); i++) {
+        
+        if (cbuf[i] == ' ')
+        {
+            res.push_back(cbuf[i]);
+            cnt = 0;
+            continue;
+        }
+        else if (cnt % 2 == 0)  res.push_back(toupper(cbuf[i]));
+        else res.push_back(tolower(cbuf[i]));
+
+        cnt++;
+    }
+
+    for (int j = 0; j < res.size(); j++) {
+        answer += res[j];
+    }
+
+    return answer;
+}
