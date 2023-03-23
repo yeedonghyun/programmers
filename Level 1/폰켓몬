@@ -1,0 +1,22 @@
+#include <vector>
+using namespace std;
+
+int solution(vector<int> nums)
+{
+    int poketmon[10000];
+    int cnt = 1;
+    int j;
+    poketmon[0] = nums[0];
+    for (int i = 1; i < nums.size(); i++) {
+        for (j = 0; j < cnt; j++) {
+            if(nums[i] == poketmon[j]) break;
+        }
+        
+        if (j == cnt) {
+            poketmon[cnt]= nums[i];
+            cnt++;
+        }
+    }
+    if (cnt > nums.size() / 2) return nums.size()/2;
+    return cnt;
+}
