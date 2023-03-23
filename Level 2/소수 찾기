@@ -1,0 +1,29 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <math.h>
+
+using namespace std;
+bool isPrime(int number) {
+    if (number < 2) return false;
+    for (int i = 2; i <= sqrt(number); i++) {
+        if (number % i == 0) return false;
+    }
+    return true;
+}
+
+
+int solution(string numbers) {
+    sort(numbers.begin(), numbers.end());
+    vector<int> prime;
+
+    do {
+        for (int i = 1; i < numbers.size() + 1; i++) {
+            if(isPrime(stoi(numbers.substr(0, i)))) prime.push_back(stoi(numbers.substr(0, i)));
+        }
+    } while (next_permutation(numbers.begin(), numbers.end()));
+
+    sort(prime.begin(), prime.end());
+    prime.erase(unique(prime.begin(), prime.end()), prime.end());
+    return prime.size();
+}
