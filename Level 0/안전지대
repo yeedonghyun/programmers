@@ -1,0 +1,39 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+void Safe2Danger(vector<vector<int>> &_safe, int _x, int _y) {
+
+    _safe[_x - 1][_y - 1] = 1;
+    _safe[_x - 1][_y] = 1;
+    _safe[_x - 1][_y + 1] = 1;
+
+    _safe[_x + 1][_y - 1] = 1;
+    _safe[_x + 1][_y] = 1;
+    _safe[_x + 1][_y + 1] = 1;
+
+    _safe[_x][_y - 1] = 1;
+    _safe[_x][_y] = 1;
+    _safe[_x][_y + 1] = 1;
+}
+
+int solution(vector<vector<int>> board) {
+    int answer = 0;
+    int boardSize = board.size();
+    vector<vector<int>> safe(boardSize + 2, vector<int> (boardSize + 2, 0));
+
+    for (int i = 1; i <= boardSize; i++) {
+        for (int j = 1; j <= boardSize; j++) {
+            if (board[i - 1][j - 1] == 1) Safe2Danger(safe, i, j);
+        }
+    }
+
+    for (int i = 1; i <= boardSize; i++) {
+        for (int j = 1; j <= boardSize; j++) {
+            if (safe[i][j] == 0) answer++;
+        }
+    }
+
+    return answer;
+}
