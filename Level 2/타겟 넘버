@@ -1,0 +1,26 @@
+#include <string>
+#include <vector>
+
+
+using namespace std;
+int res;
+int DFS(vector<int> numbers, int target, int sum, int index) {
+
+    if (index >= numbers.size()) {
+        if (sum == target) res++;
+        return 0;
+    }
+
+    DFS(numbers, target, sum + numbers[index], index + 1);
+    DFS(numbers, target, sum - numbers[index], index + 1);
+}
+
+int solution(vector<int> numbers, int target) {
+    int sum = 0;
+    DFS(numbers, target, numbers[0], 1);
+    DFS(numbers, target, -numbers[0], 1);
+
+    int answer = res;
+
+    return answer;
+}
