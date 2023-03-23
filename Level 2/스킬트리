@@ -1,0 +1,38 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(string skill, vector<string> skill_trees) {
+    int answer = 0;
+    for (int i = 0; i < skill_trees.size(); i++) {
+        for (int j = 0; j < skill_trees[i].size(); j++) {
+            int index = skill.find(skill_trees[i][j]);
+            if (index == -1) {
+                skill_trees[i].erase(skill_trees[i].begin() + j, skill_trees[i].begin() + j + 1);
+                j--;
+            }
+            else skill_trees[i][j] = index + '0';
+        }
+    }
+
+    for (int i = 0; i < skill_trees.size(); i++) {
+        if (skill_trees[i].size() == 0) {
+            answer++;
+            continue;
+        }
+        char temp = skill_trees[i][0];
+        if (temp != '0') continue;
+        int j = 1;
+
+        for (; j < skill_trees[i].size(); j++) {
+            if (temp + 1 != skill_trees[i][j])  {
+                break;
+            }
+            temp = skill_trees[i][j];
+        }
+        if (j == skill_trees[i].size()) answer++;
+    }
+
+    return answer;
+}
