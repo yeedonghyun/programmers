@@ -1,0 +1,21 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+int index;
+
+bool compare(string i, string j) {
+   if(i[index] == j[index]){
+        return i < j;
+    }
+    else{
+        return i[index] < j[index];
+    }
+}
+
+vector<string> solution(vector<string> strings, int n) {
+    index = n;
+    sort(strings.begin(), strings.end(), compare);
+    return strings;
+}
