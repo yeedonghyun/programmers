@@ -1,0 +1,34 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int answer;
+int nNumMaxDungeons;
+void Dfs(int fatigue, vector<vector<int>> dungeons, int cnt) {
+    if (nNumMaxDungeons == answer) {
+        return;
+    }
+    if (dungeons.empty()) {
+        if (cnt > answer) answer = cnt;
+        return;
+    }
+
+    for (int i = 0; i < dungeons.size(); i++) {
+        vector<vector<int>> d = dungeons;
+        d.erase(d.begin() + i, d.begin() + i + 1);
+        if (dungeons[i][0] <= fatigue) {
+            Dfs(fatigue - dungeons[i][1], d, cnt + 1);
+        }
+        else {
+            Dfs(fatigue, d, cnt);
+        }
+    }
+}
+
+int solution(int k, vector<vector<int>> dungeons) {
+    nNumMaxDungeons = dungeons.size();
+    Dfs(k, dungeons, 0);
+
+    return answer;
+}
