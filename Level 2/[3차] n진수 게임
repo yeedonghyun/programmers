@@ -1,0 +1,53 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector<char> transBinary(int n, int binary) {
+    vector<char> res;
+    if (n == 0) {
+        res.push_back('0');
+    }
+    
+    while (n >= 1) {
+        char remainder = n % binary;
+        if (remainder > 9) {
+            if (remainder == 10) remainder = 'A';
+            else if (remainder == 11) remainder = 'B';
+            else if (remainder == 12) remainder = 'C';
+            else if (remainder == 13) remainder = 'D';
+            else if (remainder == 14) remainder = 'E';
+            else remainder = 'F';
+        }
+        else remainder += '0';
+
+        
+        res.push_back(remainder);
+        n /= binary;
+    }
+
+    reverse(res.begin(), res.end());
+
+    return res;
+}
+
+string solution(int n, int t, int m, int p) {
+    string answer = "";
+    
+    int curNum = 0;
+    vector<char> binary;
+    while (binary.size() < t * m) {
+        vector<char> v = transBinary(curNum, n);
+        for (int i = 0; i < v.size(); i++) {
+            binary.push_back(v[i]);
+        }
+        curNum++;
+    }
+
+    while (answer.size() != t) {
+        answer.push_back(binary[p - 1 + m * answer.size()]);
+    }
+
+    return answer;
+}
