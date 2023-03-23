@@ -1,0 +1,37 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+
+string solution(string X, string Y) {
+    string answer = "";
+    int nNumCntX[10] = {}, nNumCntY[10] = {};
+    vector<int> pair;
+    
+    for (int i = 0; i < X.size(); i++) nNumCntX[X[i] - '0']++;
+    for (int i = 0; i < Y.size(); i++) nNumCntY[Y[i] - '0']++;
+    
+
+    for (int i = 9; i >= 0; i--) {
+        if (nNumCntY[i] > nNumCntX[i]) {
+            for (int j = 0; j < nNumCntX[i]; j++) {
+                if (i == 0 && pair.size() == 0) return "0";
+                pair.push_back(i);
+            }
+        }
+        else {
+            for (int j = 0; j < nNumCntY[i]; j++) {
+                if (i == 0 && pair.size() == 0) return "0";
+                pair.push_back(i);
+            }
+        }
+    }
+    if (pair.size() == 0) return "-1";
+    
+    for (int i = 0; i < pair.size(); i++) {
+        answer += (pair[i] + '0');
+    }
+
+    return answer;
+}
