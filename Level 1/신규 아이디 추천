@@ -1,0 +1,35 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(string new_id) {
+    string answer = "";
+    for(int i = 0; i < new_id.length(); i++) new_id[i] = tolower(new_id[i]);
+    for (int j = 0; j < new_id.length(); j++) {
+        if (!('a' <= new_id[j] && new_id[j] <= 'z'))
+            if(!('0' <= new_id[j] && new_id[j] <= '9'))
+                if(new_id[j] != '-')
+                    if( new_id[j] != '_' )
+                        if (new_id[j] != '.') {
+                            new_id.erase(j, 1);
+                            j--;
+                        }
+    }
+    for (int j = 0; j < new_id.length() - 1; j++) {
+        if (new_id[j] == '.' && new_id[j + 1] == '.') {
+            new_id.erase(j, 1);
+            j--;
+        }
+    }
+
+    if (new_id[0] == '.')  new_id.erase(0, 1);
+    if(new_id[new_id.length()-1] == '.') new_id.erase(new_id.length()-1, 1);
+    if (new_id.length() == 0) new_id.push_back('a');
+    if(new_id.length() > 15) new_id.erase(15, new_id.length());
+    if(new_id[new_id.length() - 1] == '.') new_id.erase(new_id.length() - 1, 1);
+    for (int j = 0; j < 3; j++) {
+        if (new_id.length() < 3) new_id.push_back(new_id[new_id.length()-1]);
+    }
+    return new_id;
+}
