@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+int gcd(int x, int y) { 
+    
+    return x % y == 0 ? y : gcd(y, x % y); 
+}
+
+int lcm(int x, int y) { 
+    return x * y / gcd(x, y); 
+}
+
+int solution(int arr[], size_t arr_len) {
+
+    int answer = arr[0];
+    
+    for (int i = 1; i < arr_len; i++)
+        answer = lcm(answer, arr[i]);
+    
+    return answer;
+}
