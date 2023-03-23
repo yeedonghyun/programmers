@@ -1,0 +1,25 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int solution(int k, vector<int> tangerine) {
+    int answer = 0;
+    int tempK = 0;
+    int* size = new int[10000000]{};
+
+    for (int i = 0; i < tangerine.size(); i++) {
+        size[tangerine[i]]++;
+    }
+
+    sort(size, size + 10000001, greater<>());
+
+    for (int j = 0; j <= 10000000; j++) {
+        if (tempK >= k) break;
+        answer++;
+        tempK += size[j];
+    }
+
+    return answer;
+}
