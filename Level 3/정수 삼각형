@@ -1,0 +1,28 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int solution(vector<vector<int>> triangle) {
+
+    vector<vector<int>> sum;
+    sum.assign(triangle.size(), vector<int>(triangle.size(), 0));
+
+    sum[0][0] = triangle[0][0];
+
+    for (int i = 1; i < triangle.size(); i++) {
+        sum[i][0] = sum[i - 1][0] + triangle[i][0];
+        sum[i][i] = sum[i - 1][i - 1] + triangle[i][i];
+    }
+
+    for (int j = 2; j < triangle.size(); j++) {
+        for (int k = 1; k < triangle[j].size() - 1; k++) {
+            sum[j][k] = max(sum[j - 1][k - 1], sum[j - 1][k]) + triangle[j][k];
+        }
+    }
+
+    sort(sum.back().begin(), sum.back().end());
+
+    return sum.back().back();
+}
