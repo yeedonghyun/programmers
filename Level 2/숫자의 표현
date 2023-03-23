@@ -1,0 +1,23 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(int n) {
+    int cnt = 1;
+
+    if(n == 1) cnt = 1;
+	else{
+            for (int i = 1; i <= n / 2; i++) {
+            int sum = 0;
+            int temp = i;
+            while (sum < n) {
+                sum += temp;
+                temp++;
+                if (sum == n) cnt++;
+            }
+        }
+    }
+    
+	return cnt;
+}
