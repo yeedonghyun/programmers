@@ -1,0 +1,35 @@
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+
+using namespace std;
+
+bool Cmp(pair<int, int>a, pair<int, int> b) {
+    return a.second > b.second;
+}
+
+vector<int> solution(string s) {
+    vector<int> answer;
+    unordered_map<int, int> numCnt;
+    int num = 0;
+
+    for (int i = 0; i < s.size(); i++) {
+
+        if ('0' <= s[i] && s[i] <= '9') {
+            if (num != 0) num = num * 10 + s[i] - 48;
+            else num = s[i] - 48;
+        }
+        else if (num != 0) {
+            if (numCnt.find(num) == numCnt.end())  numCnt.insert(make_pair(num, 1));
+            else numCnt[num]++;
+            num = 0;
+        }
+    }
+
+    vector<pair<int,int>> v(numCnt.begin(), numCnt.end());
+    sort(v.begin(), v.end(), Cmp);
+    for (int i = 0; i < v.size(); i++) answer.push_back(v[i].first);
+    
+    return answer;
+}
