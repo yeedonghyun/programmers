@@ -1,0 +1,50 @@
+#include <string>
+#include <vector>
+#include <cmath>
+#include <sstream>
+#include <map>
+
+using namespace std;
+int TimeDiff(string in, string out) {
+    int our = 0;
+    int min = 0;
+    our += (out[0] - in[0]) * 10;
+    our += (out[1] - in[1]);
+
+    min += (out[3] - in[3]) * 10;
+    min += (out[4] - in[4]);
+
+    return our * 60 + min;
+}
+vector<int> solution(vector<int> fees, vector<string> records) {
+    vector<int> answer;
+    map<string, vector<string>> parkingCheck;
+
+    for (int i = 0; i < records.size(); i++) {
+        stringstream ss;
+        ss.str(records[i]);
+        string time, carNum;
+
+        ss >> time >> carNum;
+        parkingCheck[carNum].push_back(time);
+    }
+
+    for (auto elem : parkingCheck) {
+        int parkingTime = 0;
+        if (elem.second.size() % 2 == 1) {
+            elem.second.push_back("23:59");
+        }
+        for (int j = 0; j < elem.second.size() - 1; j += 2) {
+            parkingTime += TimeDiff(elem.second[j], elem.second[j + 1]);
+        }
+
+        int price = fees[1];
+        if (parkingTime > fees[0]) {
+            price += ceil((parkingTime - fees[0]) / (double)fees[2]) * fees[3];
+        }
+
+        answer.push_back(price);
+    }
+
+    return answer;
+}
