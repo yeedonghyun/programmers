@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+int solution(int left, int right) {
+    int answer = 0;
+    
+    for(int i = left; i <= right; i++){
+        int nNumMeasure = 0;
+        int j;
+        for(j = 1; j*j < i; j++){
+            if(i%j==0)
+            nNumMeasure+=2;
+        }
+        
+        if(j*j==i)
+        nNumMeasure++;
+        
+        if(nNumMeasure % 2 == 0){
+            answer += i;
+        }
+        else
+            answer -= i;
+    }
+    
+    return answer;
+}
