@@ -1,0 +1,62 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+bool Cmp(pair<string, int>& a, pair<string, int>& b)
+{
+    return a.second > b.second;
+}
+
+void CombinatorialSearch(unordered_map<string, int>& _combinatorial, string _s, vector<int>& _elementSize){
+    for (int i = 0; i < _elementSize.size(); i++) {
+        if (_s.size() < _elementSize[i]) break;
+
+        vector<bool> visited(_s.size(), true);
+        
+        sort(_s.begin(), _s.end());
+        for (int j = 0; j < _s.size() - _elementSize[i]; j++) visited[j] = false;
+        do {
+            string temp = "";
+            for (int k = 0; k < _s.size(); k++) {
+                if (visited[k])	temp += _s[k];
+            }
+            if (_combinatorial.find(temp) == _combinatorial.end()) {
+                _combinatorial.insert(make_pair(temp, 1));
+            }
+            else _combinatorial[temp]++;
+        } while (next_permutation(visited.begin(), visited.end()));
+    }
+}
+
+vector<string> solution(vector<string> orders, vector<int> course) {
+    unordered_map<string, int> newCourse;
+
+    for (int i = 0; i < orders.size(); i++) {
+        CombinatorialSearch(newCourse, orders[i], course);
+    }
+
+    vector<pair<string, int>> vec(newCourse.begin(), newCourse.end());
+    sort(vec.begin(), vec.end(), Cmp);
+    vector<int> bestCourse(course.size(), 2);;
+    vector<string> answer;
+
+    for (int i = 0; i < vec.size(); i++) {
+        for (int j = 0; j < course.size(); j++) {
+            if (vec[i].first.size() == course[j] && vec[i].second > bestCourse[j]) {
+                bestCourse[j] = vec[i].second;
+                answer.push_back(vec[i].first);
+                break;
+            }
+            else if (vec[i].first.size() == course[j] && vec[i].second == bestCourse[j]) {
+                answer.push_back(vec[i].first);
+                break;
+            }
+        }
+    }
+
+    sort(answer.begin(), answer.end());
+
+    return answer;
+}
