@@ -1,0 +1,28 @@
+#include <string>
+#include <vector>
+#include <stack>
+
+using namespace std;
+
+vector<int> solution(vector<int> numbers) {
+    vector<int> answer(numbers.size(), -1);
+    stack<int> s;
+
+    for (int i = 0; i < numbers.size(); i++) {
+
+        int cnt = 1;
+        while (!s.empty() && s.top() < numbers[i]) {
+            if (answer[i - cnt] != -1) {
+                cnt++;
+                continue;
+            }
+            answer[i - cnt] = numbers[i];
+            s.pop();
+            cnt++;
+        }
+
+        s.push(numbers[i]);
+    }
+
+    return answer;
+}
