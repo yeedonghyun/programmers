@@ -1,0 +1,16 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+long long solution(int n) {
+    long long answer;
+    long long t1 = 0, t2 = 1;
+
+    for (long long i = 0; i < n; i++) {
+        answer = (t1 + t2) % 1234567;
+        t1 = t2 % 1234567;
+        t2 = answer;
+    }
+
+    return answer;
+}
