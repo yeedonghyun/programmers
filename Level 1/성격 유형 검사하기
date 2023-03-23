@@ -1,0 +1,42 @@
+#include <string>
+#include <vector>
+
+using namespace std;string solution(vector<string> survey, vector<int> choices) {
+    string answer = "";
+
+    int Indicators[4] = {};
+    char priority[4] = { 'R','C', 'J', 'A' };
+    char lowPriority[4] = { 'T','F', 'M', 'N' };
+
+    for (int i = 0; i < survey.size(); i++) {
+
+        if (survey[i][0] == 'R' || survey[i][0] == 'T') {
+            if (survey[i][0] == 'R') Indicators[0] += -choices[i] + 4;
+            else Indicators[0] += choices[i] - 4;
+        }
+
+        else if (survey[i][0] == 'C' || survey[i][0] == 'F') {
+            if (survey[i][0] == 'C') Indicators[1] += -choices[i] + 4;
+            else  Indicators[1] += choices[i] - 4;
+        }
+
+        else if (survey[i][0] == 'J' || survey[i][0] == 'M') {
+            if (survey[i][0] == 'J') Indicators[2] += -choices[i] + 4;
+            else Indicators[2] += choices[i] - 4;
+        }
+
+        else if (survey[i][0] == 'A' || survey[i][0] == 'N') {
+            if (survey[i][0] == 'A')  Indicators[3] += -choices[i] + 4;
+            else Indicators[3] += choices[i] - 4;
+        }
+    }
+
+    for (int j = 0; j < 4; j++) {
+        if (Indicators[j] >= 0) {
+            answer += priority[j];
+        }
+        else  answer += lowPriority[j];
+    }
+
+    return answer;
+}
