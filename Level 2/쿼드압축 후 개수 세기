@@ -1,0 +1,43 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int zeroCnt;
+int oneCnt;
+
+void isAllSameValue(vector<vector<int>>& _arr, int _row, int _column, int _maxlength) {
+
+    bool diff = true;
+
+    for (int i = _row; i < _row + _maxlength; i++) {
+        for (int j = _column; j < _column + _maxlength; j++) {
+            if (_arr[_row][_column] != _arr[i][j]) {
+                diff = false;
+                break;
+            }
+        }
+    }
+
+    if (diff && _arr[_row][_column] == 0) {
+        zeroCnt++;
+        return;
+    }
+    else if (diff && _arr[_row][_column] == 1) {
+        oneCnt++;
+        return;
+    }
+    else {
+        isAllSameValue(_arr, _row, _column, _maxlength / 2);
+        isAllSameValue(_arr, _row + _maxlength / 2, _column, _maxlength / 2);
+        isAllSameValue(_arr, _row, _column + _maxlength / 2, _maxlength / 2);
+        isAllSameValue(_arr, _row + _maxlength / 2, _column + _maxlength / 2, _maxlength / 2);
+    }
+}
+
+vector<int> solution(vector<vector<int>> arr) {
+
+    isAllSameValue(arr, 0, 0, arr.size());
+
+    return vector<int>{zeroCnt, oneCnt};
+}
