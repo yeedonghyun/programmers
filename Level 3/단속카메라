@@ -1,0 +1,27 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+bool Cmp(vector<int>& a, vector<int>& b) {
+    return a.back() < b.back();
+}
+
+int solution(vector<vector<int>> routes) {
+    int answer = 1;
+
+    sort(routes.begin(), routes.end(), Cmp);
+    int cameraPos = max(routes[0][0], routes[0][1]);
+
+    for (int i = 1; i < routes.size(); i++) {
+        int Min = min(routes[i][0], routes[i][1]);
+        int Max = max(routes[i][0], routes[i][1]);
+        if (!(Min <= cameraPos && cameraPos <= Max)) {
+            cameraPos = Max;
+            answer++;
+        }
+    }
+
+    return answer;
+}
