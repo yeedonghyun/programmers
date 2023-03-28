@@ -1,0 +1,28 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int solution(vector<int> A, vector<int> B) {
+    int answer = 0;
+    int index = 0;
+
+    sort(A.begin(), A.end(), greater<>());
+    sort(B.begin(), B.end(), greater<>());
+
+    for (int i = 0; i < A.size(); i++) {
+        int temp = index;
+        while(temp < B.size()) {
+            if (A[i] < B[temp]) {
+                answer++;
+                index = temp + 1;
+                break;
+            }
+            temp++;
+        }
+        if (index == B.size()) break;
+    }
+
+    return answer;
+}
