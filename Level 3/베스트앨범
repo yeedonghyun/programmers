@@ -1,0 +1,65 @@
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+
+using namespace std;
+
+bool Cmp(pair<string, vector<int>>& a, pair<string, vector<int>>& b) {
+    return a.second[0] > b.second[0];
+}
+
+vector<int> solution(vector<string> genres, vector<int> plays) {
+    vector<int> answer;
+    unordered_map<string, vector<int>> map;
+
+    for (int i = 0; i < genres.size(); i++) {
+        string genre = genres[i];
+        int play = plays[i];
+
+        if (map[genre].size() == 0) {
+            map[genre].push_back(play);
+            map[genre].push_back(play);
+            map[genre].push_back(i);
+        }
+        else if (map[genre].size() == 3) {
+            map[genre][0] += play;
+            if (map[genre][1] < play) {
+                map[genre].push_back(map[genre][1]);
+                map[genre].push_back(map[genre][2]);
+                map[genre][1] = play;
+                map[genre][2] = i;
+            }
+            else {
+                map[genre].push_back(play);
+                map[genre].push_back(i);
+            }
+        }
+        else {
+            map[genre][0] += play;
+            if (map[genre][1] < play) {
+                map[genre][3] = map[genre][1];
+                map[genre][4] = map[genre][2];
+                map[genre][1] = play;
+                map[genre][2] = i;
+            }
+            else if (map[genre][3] < play) {
+
+                map[genre][3] = play;
+                map[genre][4] = i;
+            }
+        }
+    }
+
+    vector<pair<string, vector<int>>> v(map.begin(), map.end());
+
+    sort(v.begin(), v.end(), Cmp);
+
+    for (auto a : v) {
+        for (int j = 2; j < a.second.size(); j += 2) {
+            answer.push_back(a.second[j]);
+        }
+    }
+
+    return answer;
+}
