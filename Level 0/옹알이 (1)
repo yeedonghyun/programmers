@@ -1,0 +1,28 @@
+#include <string>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+int solution(vector<string> babbling) {
+    int answer = 0;
+    unordered_map<string, bool> pronunciation = { {"aya",  false}, {"ye",  false}, {"woo",  false}, {"ma",  false} };
+
+    for (string i : babbling) {
+        string temp = "";
+        for (char j : i) {
+            temp += j;
+            if (pronunciation.find(temp) != pronunciation.end()) {
+                if (!pronunciation[temp]) {
+                    pronunciation[temp] = true;
+                    temp = "";
+                }
+                else break;
+            }
+        }
+        if (temp.size() == 0) answer++;
+        pronunciation = { {"aya",  false}, {"ye",  false}, {"woo",  false}, {"ma",  false} };
+    }
+
+    return answer;
+}
