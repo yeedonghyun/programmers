@@ -1,0 +1,40 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+bool CheckBan(vector<string> s_1, vector<string> s_2) {
+    for (int i = 0; i < s_1.size(); i++) {
+        if (s_1[i].size() != s_2[i].size()) return false;
+
+        for (int j = 0; j < s_1[i].size(); j++) {
+            if (s_1[i][j] != s_2[i][j] && s_2[i][j] != '*') return false;
+        }
+    }
+    return true;
+}
+
+int solution(vector<string> user_id, vector<string> banned_id) {
+    vector<vector<string>> combination;
+    vector<vector<string>> answer;
+    sort(user_id.begin(), user_id.end());
+    
+    do {
+        vector<string> s;
+        for (int i = 0; i < banned_id.size(); i++) {
+            s.push_back(user_id[i]);
+        }
+
+        if (CheckBan(s, banned_id)) {
+            sort(s.begin(), s.end());
+            answer.push_back(s);
+        }
+
+    } while (next_permutation(user_id.begin(), user_id.end()));
+
+    sort(answer.begin(), answer.end());
+    answer.erase(unique(answer.begin(), answer.end()), answer.end());
+
+    return answer.size();
+}
