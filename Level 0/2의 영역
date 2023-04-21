@@ -1,0 +1,25 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> solution(vector<int> arr) {
+    vector<int> answer;
+    int index[2] = {-1, -1};
+
+    for (int i = 0; i < arr.size(); i++) {
+        if (arr[i] == 2) {
+            if (index[0] != -1) {
+                index[1] = i;
+            }
+            else {
+                index[0] = i;
+                index[1] = i;
+            }
+        }
+    }
+    if (index[0] == -1) return vector<int>{-1};
+    vector<int> a(arr.begin() + index[0], arr.begin() + index[1] + 1);
+
+    return a;
+}
