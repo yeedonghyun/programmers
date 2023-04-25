@@ -1,0 +1,42 @@
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+
+using namespace std;
+
+vector<int> solution(vector<int> sequence, int k) {
+    vector<int> answer;
+    unordered_map<int, vector<int>> map;
+    int sum = 0;
+    vector<int> index{0,0};
+
+    for (int i = 0; i < sequence.size(); i++) {
+        sum += sequence[i];
+
+        if (sum == k) {
+            index[1] = i;
+            map.insert(make_pair(i - index[0], index));
+            sum -= sequence[index[0]];
+            index[0]++;
+        }
+
+        while(sum > k) {
+            sum -= sequence[index[0]];
+            index[0]++;
+
+            if (sum == k) {
+                index[1] = i;
+                map.insert(make_pair(i - index[0], index));
+                sum -= sequence[index[0]];
+                index[0]++;
+            }
+        }
+        
+    }
+
+    vector<pair<int, vector<int>>> vec(map.begin(), map.end());
+    sort(vec.begin(), vec.end());
+
+    return vec[0].second;
+}
