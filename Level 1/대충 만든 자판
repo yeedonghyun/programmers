@@ -1,0 +1,38 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> solution(vector<string> keymap, vector<string> targets) {
+    vector<int> answer;
+
+    for (int i = 0; i < targets.size(); i++) {
+        int sumIndex = 0;
+        for (int j = 0; j < targets[i].size(); j++) {
+
+            int minIndex = 101;
+            for (int k = 0; k < keymap.size(); k++) {
+                
+                for (int a = 0; a < keymap[k].size(); a++) {
+                    if (keymap[k][a] == targets[i][j] && a < minIndex) {
+                        minIndex = a + 1;
+                        break;
+                    }
+                    if (a > minIndex) break;
+                }
+            }
+
+            if (minIndex == 101) {
+                sumIndex = -1;
+                break;
+            }
+            else {
+                sumIndex += minIndex;
+            }
+        }
+
+        answer.push_back(sumIndex);
+    }
+
+    return answer;
+}
