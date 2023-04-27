@@ -1,0 +1,60 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector<string> solution(vector<vector<string>> tickets) {
+    vector<string> answer;
+    int routeSize = tickets.size();
+    int curRoute = 1;
+    vector<vector<string>> route;
+    vector<vector<int>> visit;
+
+    for (int i = 0; i < tickets.size(); i++) {
+        if (tickets[i][0] == "ICN") {
+            route.push_back(vector<string>{"ICN", tickets[i][1]});
+            visit.push_back(vector<int>{i});
+        }
+    }
+    
+    while (curRoute < routeSize) {
+
+        vector<vector<string>> tempRoute;
+        vector<vector<int>> tempVisit;
+        for (int i = 0; i < route.size(); i++) {
+            vector<string> curRouteTemp;
+            vector<int> curVisitTemp;
+            for (int j = 0; j < tickets.size(); j++) {
+                if (route[i].back() == tickets[j][0] && find(visit[i].begin(), visit[i].end(), j) == visit[i].end()) {
+                    curVisitTemp.push_back(j);
+                    curRouteTemp.push_back(tickets[j][1]);
+                }
+            }
+            
+            for (int k = 0; k < curVisitTemp.size(); k++) {
+
+                vector<string> temp_1(route[i]);
+                vector<int> temp_2(visit[i]);
+
+                temp_1.push_back(curRouteTemp[k]);
+                temp_2.push_back(curVisitTemp[k]);
+
+                tempRoute.push_back(temp_1);
+                tempVisit.push_back(temp_2);
+            }
+        }
+
+        route = tempRoute;
+        visit = tempVisit;
+
+        curRoute++;
+    }
+
+    if (route.size() == 1) return route[0];
+    else {
+        sort(route.begin(), route.end());
+        return route[0];
+    }
+    
+}
