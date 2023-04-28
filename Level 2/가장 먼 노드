@@ -1,0 +1,33 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int solution(int n, vector<vector<int>> edge) {
+    vector<int> graph = {1};
+    vector<int> visitNode = { 1 };
+
+    while (visitNode.size() != n) {
+        vector<int> temp;
+        for (int i = 0; i < graph.size(); i++) {
+            for (int j = 0; j < edge.size(); j++) {
+                if (graph[i] == edge[j][0]) {
+                    if (find(visitNode.begin(), visitNode.end(), edge[j][1]) == visitNode.end()) {
+                        temp.push_back(edge[j][1]);
+                        visitNode.push_back(edge[j][1]);
+                    }
+                }
+                else if (graph[i] == edge[j][1]) {
+                    if (find(visitNode.begin(), visitNode.end(), edge[j][0]) == visitNode.end()) {
+                        temp.push_back(edge[j][0]);
+                        visitNode.push_back(edge[j][0]);
+                    }
+                }
+            }
+        }
+        graph = temp;
+    }
+
+    return graph.size();
+}
