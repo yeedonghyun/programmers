@@ -1,0 +1,37 @@
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+
+using namespace std;
+
+vector<string> solution(vector<string> players, vector<string> callings) {
+    vector<string> answer;
+    unordered_map<int, string> nameByRank;
+    unordered_map<string, int> rankByName;
+
+    for (int i = 0; i < players.size(); i++) {
+        rankByName.insert(make_pair(players[i], i));
+        nameByRank.insert(make_pair(i, players[i]));
+    }
+
+    for (string s : callings) {
+        string temp = nameByRank[rankByName[s] - 1];
+
+        rankByName[s]--;
+        rankByName[temp]++;
+
+        nameByRank[rankByName[s]] = s;
+        nameByRank[rankByName[temp]] = temp;
+    }
+
+    vector<pair<int, string>> vec(nameByRank.begin(), nameByRank.end());
+
+    sort(vec.begin(), vec.end());
+
+    for (auto a : vec) {
+        answer.push_back(a.second);
+    }
+
+    return answer;
+}
