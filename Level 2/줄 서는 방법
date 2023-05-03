@@ -1,0 +1,32 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> solution(int n, long long k) {
+    vector<int> answer;
+    vector<int> num;
+    long long remainder, share;
+    long long numOfCase = 1;
+
+    if (k == 1) return num;
+    k--;
+
+    for (int i = 1; i <= n; i++) {
+        num.push_back(i);
+        numOfCase *= i;
+    }
+
+    while (num.size() != 1) {
+        numOfCase /= n;
+        remainder = k % numOfCase;
+        share = k / numOfCase;
+        answer.push_back(num[share]);
+        num.erase(num.begin() + share);
+        k = remainder;
+        n--;
+    }
+    answer.push_back(num[0]);
+
+    return answer;
+}
