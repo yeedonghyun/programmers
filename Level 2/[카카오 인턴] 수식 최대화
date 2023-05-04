@@ -1,0 +1,92 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+enum PRIORITY {
+    MINUS,
+    PLUS,
+    MUL
+};
+
+
+long long cal(vector<long long> _num, vector<int>& _minus, vector<int>& _plus, vector<int>& _mul, vector<int> _priority) {
+    long long res = 0;
+    int cnt;
+    vector<bool> check(_num.size(), false);
+
+    for (int i = 0; i < _priority.size(); i++) {
+        if (_priority[i] == MINUS) {
+            for (int j = 0; j < _minus.size(); j++) {
+                cnt = 0;
+                for (int k = _minus[j]; k >= 0; k--) {
+                    if (check[_minus[j] - 1 - cnt]) cnt++;
+                    else break;
+                }
+                _num[_minus[j] - 1 - cnt] = _num[_minus[j] - 1 - cnt] - _num[_minus[j]];
+                check[_minus[j]] = true;
+            }
+        }
+        else if (_priority[i] == PLUS) {
+            for (int j = 0; j < _plus.size(); j++) {
+                cnt = 0;
+                for (int k = _plus[j]; k >= 0; k--) {
+                    if (check[_plus[j] - 1 - cnt]) cnt++;
+                    else break;
+                }
+                _num[_plus[j] - 1 - cnt] = _num[_plus[j] - 1 - cnt] + _num[_plus[j]];
+                check[_plus[j]] = true;
+            }
+        }
+        else if (_priority[i] == MUL){
+            for (int j = 0; j < _mul.size(); j++) {
+                cnt = 0;
+                for (int k = _mul[j]; k >= 0; k--) {
+                    if (check[_mul[j] - 1 - cnt]) cnt++;
+                    else break;
+                }
+                _num[_mul[j] - 1 - cnt] = _num[_mul[j] - 1 - cnt] * _num[_mul[j]];
+                check[_mul[j]] = true;
+            }
+        }
+    }
+
+    return abs(_num[0]);
+}
+
+long long solution(string expression) {
+    long long answer = 0;
+    vector<long long> num;
+    vector<int>minus, plus, mul;
+    vector<vector<int>> Combination = { {0,1,2},{0,2,1},{1,0,2},{1,2,0},{2,0,1},{2,1,0} };
+    int index = 1;
+
+    string temp = "";
+    for (int i = 0; i < expression.size(); i++) {
+        if (expression[i] == '-') {
+            minus.push_back(index);
+        }
+        else if (expression[i] == '+') {
+            plus.push_back(index);
+        }
+        else if (expression[i] == '*') {
+            mul.push_back(index);
+        }
+        else {
+            temp += expression[i];
+            if (i != expression.size() - 1) {
+                continue;
+            }
+        }
+
+        num.push_back(stoll(temp));
+        temp = "";
+        index++;
+    }
+
+    for (int i = 0; i < Combination.size(); i++) {
+        answer = max(cal(num, minus, plus, mul, Combination[i]), answer);
+    }
+
+    return answer;
+}
