@@ -1,0 +1,14 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(int a, int b) {
+    string sa = to_string(a), sb = to_string(b);
+
+    if (sa + sb > sb + sa) {
+        return stoi(sa + sb);
+    }
+    
+    return stoi(sb + sa);
+}
