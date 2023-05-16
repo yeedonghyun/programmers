@@ -1,0 +1,22 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector<string> solution(vector<string> strArr) {
+    bool isEven = true;
+
+    for (string& s : strArr) {
+        if (isEven) {
+            isEven = !isEven;
+            transform(s.begin(), s.end(), s.begin(), ::tolower);
+        }
+        else {
+            isEven = !isEven;
+            transform(s.begin(), s.end(), s.begin(), ::toupper);
+        }
+    }
+
+    return strArr;
+}
