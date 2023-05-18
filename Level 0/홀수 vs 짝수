@@ -1,0 +1,22 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(vector<int> num_list) {
+    int sumE = 0, sumO = 0;
+    bool IsEven = true;
+
+    for (int i = 0; i < num_list.size(); i++) {
+        if (IsEven) {
+            IsEven = !IsEven;
+            sumE += num_list[i];
+        }
+        else {
+            IsEven = !IsEven;
+            sumO += num_list[i];
+        }
+    }
+
+    return max(sumE, sumO);
+}
