@@ -1,0 +1,19 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> solution(vector<int> arr) {
+    int multiple = 2;
+    int size = arr.size();
+
+    while (arr.size() > multiple) {
+        multiple *= 2;
+    }
+
+    for (int i = 0; i < multiple - size; i++) {
+        arr.push_back(0);
+    }
+
+    return arr;
+}
