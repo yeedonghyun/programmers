@@ -4,7 +4,7 @@
 using namespace std;
 
 vector<int> solution(vector<int> arr) {
-    int multiple = 2;
+    int multiple = 1;
     int size = arr.size();
 
     while (arr.size() > multiple) {
