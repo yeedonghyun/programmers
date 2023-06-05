@@ -1,0 +1,27 @@
+#include <string>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+int solution(vector<string> order) {
+    int answer = 0;
+    unordered_map<string, int> priceTag;
+    priceTag.insert(make_pair("iceamericano", 4500));
+    priceTag.insert(make_pair("americanoice", 4500));
+    priceTag.insert(make_pair("hotamericano", 4500));
+    priceTag.insert(make_pair("americanohot", 4500));
+    priceTag.insert(make_pair("americano", 4500));
+    priceTag.insert(make_pair("anything", 4500));
+    priceTag.insert(make_pair("cafelatte", 5000));
+    priceTag.insert(make_pair("cafelatteice", 5000));
+    priceTag.insert(make_pair("icecafelatte", 5000));
+    priceTag.insert(make_pair("hotcafelatte", 5000));
+    priceTag.insert(make_pair("cafelattehot", 5000));
+
+    for (string s : order) {
+        answer += priceTag[s];
+    }
+
+    return answer;
+}
