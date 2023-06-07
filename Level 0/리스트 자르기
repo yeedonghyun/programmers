@@ -1,0 +1,30 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> Slice(int _start, int _end, int _gap, vector<int>& _list) {
+    vector<int> res;
+    for (int i = _start; i <= _end; i += _gap) {
+        res.push_back(_list[i]);
+    }
+    return res;
+}
+
+vector<int> solution(int n, vector<int> slicer, vector<int> num_list) {
+
+    switch(n) {
+    case 1:
+        return Slice(0, slicer[1], 1, num_list);
+        
+    case 2:
+        return Slice(slicer[0], num_list.size() - 1, 1, num_list);
+
+    case 3:
+        return Slice(slicer[0], slicer[1], 1, num_list);
+
+    case 4:
+        return Slice(slicer[0], slicer[1], slicer[2], num_list);
+
+    }
+}
