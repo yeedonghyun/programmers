@@ -1,0 +1,23 @@
+#include <string>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+int solution(vector<string> strArr) {
+    unordered_map<int, int> group;
+
+    for (string s : strArr) {
+        group[s.size()]++;
+    }
+
+    int numMax = 0;
+
+    for (auto a : group) {
+        if (numMax < a.second) {
+            numMax = a.second;
+        }
+    }
+
+    return numMax;
+}
