@@ -1,0 +1,50 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int dir[4][2] = { {0,1},{1,0},{0,-1},{-1,0} };
+
+void DFS(vector<string>& _map, vector<vector<bool>>& _visit, int& _day, int _column, int _row) {
+    for (int i = 0; i < 4; i++) {
+        if (!_visit[_column + dir[i][0]][_row + dir[i][1]] && _map[_column + dir[i][0]][_row + dir[i][1]] != 'X') {
+            _visit[_column + dir[i][0]][_row + dir[i][1]] = true;
+            _day += _map[_column + dir[i][0]][_row + dir[i][1]] - 48;
+            DFS(_map, _visit, _day, _column + dir[i][0], _row + dir[i][1]);
+        }
+    }
+}
+
+vector<int> solution(vector<string> maps) {
+    vector<int> answer;
+    vector<vector<bool>> visit;
+    vector<string> upScaleMap;
+
+    upScaleMap.push_back(string(maps[0].size() + 2, 'X'));
+    visit.push_back(vector<bool>(maps[0].size() + 2));
+    for (int i = 0; i < maps.size(); i++) {
+        upScaleMap.push_back(string(('X' + maps[i] + 'X')));
+        visit.push_back(vector<bool>(maps[i].size() + 2));
+    }
+    upScaleMap.push_back(string(maps[0].size() + 2, 'X'));
+    visit.push_back(vector<bool>(maps[0].size() + 2));
+    
+    for (int i = 1; i < upScaleMap.size(); i++) {
+        for (int j = 1; j < upScaleMap[i].size(); j++) {
+            if (!visit[i][j] && upScaleMap[i][j] != 'X') {
+                int day = upScaleMap[i][j] - 48;
+                visit[i][j] = true;
+                DFS(upScaleMap, visit, day, i, j);
+                answer.push_back(day);
+            }
+        }
+    }
+
+    if (answer.size() == 0) {
+        answer.push_back(-1);
+        return answer;
+    }
+    sort(answer.begin(), answer.end());
+    return answer;
+}
