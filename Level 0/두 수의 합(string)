@@ -1,0 +1,37 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+string solution(string a, string b) {
+    string res = "";
+    int largeSize = max(a.size(), b.size());
+    int num = 0;
+    int numIndex = 0;
+
+    for (int i = 0; i < largeSize; i++) {
+        int numA = 0, numB = 0;
+        
+        if(i < a.size()) numA = (a[a.size() - 1 - i]) - '0';
+        if(i < b.size()) numB = (b[b.size() - 1 - i]) - '0';      
+        
+        int temp = numA + numB + num;            
+        num = temp / 10;
+        res += to_string(temp % 10);
+        numIndex = i + 1;        
+    }
+
+    if (num == 1) {
+        if (numIndex == res.size()) {
+            res += '1';
+        }
+        else {
+            res[numIndex] += 1;
+        }
+    }
+
+    reverse(res.begin(), res.end());
+
+    return res;
+}
