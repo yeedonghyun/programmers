@@ -1,0 +1,13 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+string solution(string my_string, vector<vector<int>> queries) {
+    for (auto a : queries) {
+        reverse(my_string.begin() + a[0], my_string.begin() + a[1] + 1);
+    }   
+
+    return my_string;
+}
