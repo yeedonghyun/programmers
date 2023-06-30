@@ -1,0 +1,27 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector<int> solution(vector<int> arr, vector<vector<int>> queries) {
+    vector<int> answer;
+
+    for (auto a : queries) {
+        vector<int> temp(arr.begin() + a[0], arr.begin() + a[1] + 1);
+        sort(temp.begin(), temp.end());
+
+        int i;
+        for (i = 0; i < temp.size(); i++) {
+            if (temp[i] > a.back()) {
+                answer.push_back(temp[i]);
+                break;
+            }
+        }
+        if (i == temp.size()) {
+            answer.push_back(-1);
+        }        
+    }
+
+    return answer;
+}
