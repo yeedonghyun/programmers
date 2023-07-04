@@ -1,0 +1,8 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(string my_string, string overwrite_string, int s) {
+    return string(my_string.begin(), my_string.begin() + s) + string(overwrite_string) + string(my_string.begin() + s + overwrite_string.size(), my_string.end());
+}
