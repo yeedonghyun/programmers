@@ -1,0 +1,24 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main(void) {
+
+    int dis = 'a' - 'A';
+    string str;
+    cin >> str;
+
+    for (char& c : str) {
+        if (c >= 'a') {
+            c -= dis;
+        }
+        else {
+            c += dis;
+        }
+    }
+    
+    cout << str;
+
+    return 0;
+}
