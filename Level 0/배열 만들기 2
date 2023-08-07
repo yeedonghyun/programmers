@@ -1,0 +1,26 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+bool findNumber(string s) {
+    for (auto c : s) {
+        if (c - '0' != 5 && c - '0' != 0) return false;
+    }
+    return true;
+}
+
+vector<int> solution(int l, int r) {
+    vector<int> answer;
+    int num = 5;
+
+    for (; num <= r; num += 5) {
+        if (num >= l && num <= r && findNumber(to_string(num))) {
+            answer.push_back(num);
+        }            
+    }
+
+    if (answer.empty()) return vector<int>{-1};
+
+    return answer;
+}
