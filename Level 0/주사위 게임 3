@@ -1,0 +1,54 @@
+#include <string>
+#include <cmath>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+
+int solution(int a, int b, int c, int d) {
+    vector<int> number = { a,b,c,d };
+    unordered_map<int, int> m;
+
+    for (int i : number) {
+        if (m.find(i) == m.end()) {
+            m.insert(make_pair(i, 1));
+        }
+        else m[i]++;
+    }
+
+    vector<pair<int, int>> v(m.begin(), m.end());
+
+    if (v.size() == 1) {
+        return v[0].first * 1111;
+    }
+    else if (v.size() == 2) {
+        if (v[0].second == 1) {
+            return pow(10 * v[1].first + v[0].first, 2);
+        }
+        else if(v[0].second == 3){
+            return pow(10 * v[0].first + v[1].first, 2);
+        }
+        else {
+            return (v[0].first + v[1].first) * abs(v[0].first - v[1].first);
+        }
+    }
+    else if (v.size() == 3) {
+        if (v[0].second == 2) {
+            return v[1].first * v[2].first;
+        }
+        if (v[1].second == 2) {
+            return v[0].first * v[2].first;
+        }
+        if (v[2].second == 2) {
+            return v[1].first * v[0].first;
+        }
+    }
+    else {
+        int min = 7;
+        for (auto i : v) {
+            if (i.first < min) min = i.first;
+        }
+        return min;
+    }
+}
