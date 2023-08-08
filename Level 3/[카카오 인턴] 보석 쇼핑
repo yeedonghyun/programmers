@@ -1,0 +1,50 @@
+#include <string>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+vector<int> solution(vector<string> gems) {
+    unordered_map<string, int> gem;
+    for (string s : gems) {
+        gem[s] = 1;
+    }
+    int tempMin = 0;
+    int min = 0;
+    int max = 100000;
+    int dis = 100000;
+    int numOfGem = gem.size();
+
+    unordered_map<string, int> curGem;
+    for (int i = 0; i < gems.size(); i++) {
+        if (curGem.find(gems[i]) == curGem.end()) {
+            curGem.insert(make_pair(gems[i], 1));
+            if (curGem.size() == numOfGem && dis > i - tempMin) {
+                max = i;
+                dis = i - tempMin;
+                min = tempMin;
+            }
+        }
+        else {
+            curGem[gems[i]]++;            
+        }
+        if (curGem[gems[tempMin]] >= 2) {
+            curGem[gems[tempMin]]--;
+            tempMin++;
+            for (int j = tempMin; j < gems.size(); j++) {
+                if (curGem[gems[tempMin]] >= 2) {
+                    curGem[gems[tempMin]]--;
+                    tempMin++;
+                }
+                else if (curGem.size() == numOfGem && dis > i - tempMin) {
+                    max = i;
+                    dis = i - tempMin;
+                    min = tempMin;
+                }
+                else break;
+            }
+        }
+    }
+
+    return vector<int>{min + 1, max + 1};
+}
