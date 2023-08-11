@@ -1,0 +1,38 @@
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+
+using namespace std;
+
+void DFS(int start, vector<int> route, unordered_map<int, vector<int>>& cntbyWire, vector<int>& remove, int& res) {
+    vector<int> v = cntbyWire[start];
+    for (int i : v) {
+        if (!(remove[0] == start && remove[1] == i || remove[0] == i && remove[1] == start) && find(route.begin(), route.end(), i) == route.end()) {
+            route.push_back(start);
+            res++;
+            DFS(i, route, cntbyWire, remove, res);
+        }
+    }
+}
+
+int solution(int n, vector<vector<int>> wires) {
+    unordered_map<int, vector<int>> cntbyWire;
+    int answer = -1;
+    int minDis = 100;
+
+    for (vector<int> v : wires) {
+        cntbyWire[v[0]].push_back(v[1]);
+        cntbyWire[v[1]].push_back(v[0]);
+    }
+
+    for (vector<int> remove : wires) {
+        int v1 = 1, v2 = 1;
+        DFS(remove[0], vector<int>{}, cntbyWire, remove, v1);
+        DFS(remove[1], vector<int>{}, cntbyWire, remove, v2);
+        
+        minDis = min(minDis, abs(v1 - v2));        
+    }
+
+    return minDis;
+}
