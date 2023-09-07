@@ -1,0 +1,78 @@
+#include <string>
+#include <vector>
+#include <queue>
+#include <iomanip>
+#include <sstream>
+#include <algorithm>
+
+using namespace std;
+string IntToTimeString(int number) {
+
+    int minutes = number % 60;
+    int hours = number / 60;
+
+    ostringstream oss;
+    oss << std::setw(2) << std::setfill('0') << hours << ":" << std::setw(2) << std::setfill('0') << minutes;
+
+    return oss.str();
+}
+
+int timeStringToInt(const std::string& timeStr) {
+    std::istringstream ss(timeStr);
+    int hours, minutes;
+    char colon;
+
+    ss >> hours >> colon >> minutes;
+
+    return hours * 60 + minutes;
+}
+
+
+int solution(vector<vector<string>> book_time) {
+    vector<string> tempIn, tempOut;
+    queue<string> in, out;
+    int max = 0;
+    int cur = 0;
+
+    for (auto a : book_time) {
+        tempIn.push_back(a[0]);
+        tempOut.push_back(a[1]);
+    }
+
+    sort(tempIn.begin(), tempIn.end());
+    sort(tempOut.begin(), tempOut.end());
+
+    for (int i = 0; i < tempIn.size(); i++) {
+        in.push(tempIn[i]);
+        int tempI = timeStringToInt(tempOut[i]);        
+        out.push(IntToTimeString(tempI + 10));
+    }
+
+    int startTime = 0;
+    while (startTime != 1440) {
+        string curTime = IntToTimeString(startTime);
+        bool isChange = false;
+
+        if (curTime == in.front()) {
+            in.pop();
+            cur++;
+            isChange = true;
+        }
+
+        if (curTime == out.front()) {
+            out.pop();
+            cur--;
+            isChange = true;
+        }
+
+        if(!isChange) {
+            startTime++;
+
+            if (cur > max) {
+                max = cur;
+            }
+        }
+    }
+    
+    return max;
+}
