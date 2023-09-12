@@ -1,0 +1,55 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <queue>
+#include <set>
+
+using namespace std;
+
+void dijkstra(vector<int>& _dp, vector<vector<int>>& _roads, unordered_map<int, set<int>>& connected) {
+    priority_queue<pair<int, int>> pq;
+    pq.push({ 0, 1 });
+
+    while (!pq.empty()) {
+        int current = pq.top().second;
+        int time = pq.top().first;
+        pq.pop();
+
+        if (_dp[current] < time)
+            continue;
+
+        for (auto next : connected[current]) {
+            int nextTime = time + _roads[current][next];
+            if (_dp[next] > nextTime) {
+                _dp[next] = nextTime;
+                pq.push({ nextTime, next });
+            }            
+        }
+    }
+}
+
+int solution(int N, vector<vector<int> > road, int K) {
+    int answer = 0;
+    vector<int> dp(N + 1, 500001);
+    vector<vector<int>> roads(N + 1, vector<int>(N + 1, 500001));
+    unordered_map<int, set<int>> connected;
+
+    for (auto a : road) {
+        roads[a[0]][a[1]] = min(a[2], roads[a[0]][a[1]]);
+        roads[a[1]][a[0]] = min(a[2], roads[a[1]][a[0]]);
+
+        connected[a[0]].insert(a[1]);
+        connected[a[1]].insert(a[0]);
+    }
+
+    dp[1] = 0;
+    dijkstra(dp, roads, connected);
+
+    for (int i = 1; i <= N; i++) {
+        if (dp[i] <= K) {
+            answer++;
+        }
+    }
+
+    return answer;
+}
