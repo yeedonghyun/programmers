@@ -1,0 +1,46 @@
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+bool cmp(vector<int>& _a, vector<int>& _b) {
+    return _a[2] < _b[2]; 
+}
+
+int getParent(int _node, vector<int> _parent) {
+    if (_parent[_node] == _node)
+        return _node;
+
+    return getParent(_parent[_node], _parent);
+}
+
+int solution(int n, vector<vector<int>> costs) {
+    vector<int> parent(n);
+    int answer = 0;
+    int n_node = 0;
+
+    for (int i = 0; i < n; i++) {
+        parent[i] = i;
+    }
+
+    sort(costs.begin(), costs.end(), cmp);
+
+    for (auto c : costs) {
+
+        int start = getParent(c[0], parent);
+        int end = getParent(c[1], parent);
+        int cost = c[2];
+
+        if (start != end) { 
+            answer += cost;
+            n_node++;
+            parent[end] = start;
+
+            if (n_node == n - 1) {
+                break;
+            }
+        }
+    }
+
+    return answer;
+}
