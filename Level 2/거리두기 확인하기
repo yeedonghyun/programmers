@@ -1,0 +1,95 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Pos {
+public:
+    int x, y;
+
+    Pos(int _x, int _y) {
+        x = _x;
+        y = _y;
+    }
+};
+
+bool isSafety(int _dis, Pos _cur, Pos _move, vector<string>& _place){
+    Pos dir(_move.x - _cur.x, _move.y - _cur.y);
+
+    if (_dis == 1) {
+        if (_place[_move.y][_move.x] == 'P') {
+            return false;
+        }
+    }
+    else {
+        if (dir.x == 2) {
+            if (_place[_move.y][_move.x - 1] == 'O') {
+                return false;
+            }
+        }
+        else if (dir.y == 2) {
+            if (_place[_move.y - 1][_move.x] == 'O') {
+                return false;
+            }
+        }
+        else if (dir.y == 1){
+            if (_place[_move.y - 1][_move.x] == 'O' || _place[_move.y][_move.x - 1] == 'O') {
+                return false;
+            }
+        }
+        else {
+            if (_place[_move.y + 1][_move.x] == 'O' || _place[_move.y][_move.x - 1] == 'O') {
+                return false;
+            }
+        }
+    }
+    
+    return true;
+}
+
+vector<int> solution(vector<vector<string>> places) {
+    vector<int> answer;
+    Pos dir[6] = { Pos(1, 0), Pos(0, 1), Pos(2, 0), Pos(0, 2), Pos(1, -1), Pos(1, 1) };
+
+    for (int indexOfPlaces = 0; indexOfPlaces < 5; indexOfPlaces++) {
+        bool placeIsSafety = true;
+
+        for (int x = 0; x < 5; x++) {
+            for (int y = 0; y < 5; y++) {
+                Pos cur(Pos(x, y));
+                if (places[indexOfPlaces][cur.y][cur.x] != 'P') {
+                    continue;
+                }
+
+                for (int indexOfDir = 0; indexOfDir < 6; indexOfDir++) {
+                    Pos move(Pos(x + dir[indexOfDir].x, y + dir[indexOfDir].y));
+
+                    if (move.x < 0 || move.x >= 5 || move.y < 0 || move.y >= 5 || places[indexOfPlaces][move.y][move.x] != 'P') {
+                        continue;
+                    }
+
+                    int dis = abs(cur.x - move.x) + abs(cur.y - move.y);
+
+                    if (!isSafety(dis, cur, move, places[indexOfPlaces])) {
+                        placeIsSafety = false;
+                        break;
+                    }
+                }
+
+                if (!placeIsSafety) {
+                    break;
+                }
+            }
+
+            if (!placeIsSafety) {
+                answer.push_back(0);
+                break;
+            }
+        }
+        if (placeIsSafety) {
+            answer.push_back(1);
+        }
+    }
+
+    return answer;
+}
