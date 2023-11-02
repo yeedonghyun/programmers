@@ -1,0 +1,100 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int calulateFatigue(char pick, char mineral) {
+    if (pick == 'd')
+        return 1;
+
+    if (pick == 'i') {
+        if (mineral == 'd')
+            return 5;
+
+        return 1;
+    }
+    else {
+        if (mineral == 'd')
+            return 25;
+        else if (mineral == 'i') {
+            return 5;
+        }
+
+        return 1;
+    }
+}
+
+char getPick(vector<int>& picks) {
+    if (picks[0] != 0) {
+        picks[0]--;
+        return 'd';
+    }
+    else if (picks[1] != 0) {
+        picks[1]--;
+        return 'i';
+    }
+    else if (picks[2] != 0) {
+        picks[2]--;
+        return 's';
+    }
+    else {
+        return 'n';
+    }
+    
+}
+
+bool cmp(pair<int, string> a, pair<int, string> b) {
+    return a.first > b.first;
+}
+
+
+int solution(vector<int> picks, vector<string> minerals) {
+    int answer = 0;
+    vector<pair<int, string>> sumCost;
+    int sum = 0;
+    string mineral = "";
+    int npick = 0;
+
+    for (int i : picks) {
+        npick += i;
+    }
+
+    for (int i = 0; i < minerals.size(); i++) {
+        if (minerals[i][0] == 'd') {
+            sum += 25;
+            mineral += 'd';
+        }
+        else if (minerals[i][0] == 'i') {
+            sum += 5;
+            mineral += 'i';
+        }
+        else {
+            sum += 1;
+            mineral += 's';
+        }        
+
+        if (i != 0 && i % 5 == 4 || i == minerals.size() - 1) {
+            sumCost.push_back(make_pair(sum, mineral));
+            sum = 0;
+            mineral = "";
+            if (sumCost.size() >= npick)
+                break;
+        }
+    }
+
+    sort(sumCost.begin(), sumCost.end(), cmp);
+
+    for (auto a : sumCost) {
+        char pick = getPick(picks);
+
+        if (pick == 'n')
+            break;
+
+        for (char a : a.second) {
+            answer += calulateFatigue(pick, a);
+        }
+    }
+
+    return answer;
+}
