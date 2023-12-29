@@ -1,0 +1,24 @@
+#include <vector>
+
+using namespace std;
+
+int solution(vector<int> bandage, int health, vector<vector<int>> attacks) {
+    int curTime = 0;
+    int curHealth = health;
+
+    for (auto a : attacks) {
+        int timeRemainBeforeAttack = a[0] - curTime;
+        if (curTime != 0) timeRemainBeforeAttack--;
+        int additionHealValue = 0;
+        if (timeRemainBeforeAttack >= bandage[0]) {
+            additionHealValue = bandage[2] * (timeRemainBeforeAttack / bandage[0]);
+        }
+
+        int healValue = timeRemainBeforeAttack * bandage[1];
+        curHealth = min(health, curHealth + healValue + additionHealValue) - a[1];
+        if (curHealth <= 0) return -1;
+        curTime = a[0];
+    }
+
+    return curHealth;
+}
