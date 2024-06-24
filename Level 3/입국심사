@@ -1,0 +1,29 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+long long solution(int n, vector<int> times) {
+    long long answer = 0;
+    sort(times.begin(), times.end());
+
+    long long left = 1;
+    long long right = n * (long long)times.back();
+
+    while (left <= right)
+    {
+        long long avr = (left + right) / 2;
+        long long cnt = 0;
+        for (int i = 0; i < times.size(); i++){
+            cnt += (avr / (long long)times[i]);
+        }
+        if (cnt >= n)
+        {
+            right = avr - 1;
+            answer = avr;
+        }
+        else left = avr + 1;
+    }
+    return answer;
+}
