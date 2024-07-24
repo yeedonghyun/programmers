@@ -1,0 +1,90 @@
+#include <vector>
+#include <queue>
+#include <algorithm>
+#include <limits.h>
+
+using namespace std;
+
+struct Pos {
+    int x, y;
+    Pos(int X, int Y) : x(X), y(Y) {}
+
+    bool operator == (const Pos& a) const {
+        if (x == a.x && y == a.y) {
+            return true;
+        }
+        return false;
+    }
+
+    bool operator != (const Pos& a) const {
+        if (x == (a.x * -1) && y == (a.y * -1)) {
+            return true;
+        }
+        return false;
+    }
+
+    void operator += (const Pos& a) {
+        x += a.x;
+        y += a.y;
+    }
+};
+
+struct Route {
+    int cost;
+    Pos prevDir, pos;
+    Route(int COST, Pos PREVDIR, Pos POS) : cost(COST), prevDir(PREVDIR), pos(POS) {}
+};
+
+struct Cmp {
+    bool operator()(const Route& n, const Route& m) const {
+        return n.cost > m.cost;
+    }
+};
+
+int solution(vector<vector<int>> board) {
+    int mapSize = board.size() - 1;
+    Pos endPos = Pos(mapSize, mapSize);
+    Pos dir[4] = { Pos(0, 1), Pos(1, 0), Pos(0, -1), Pos(-1, 0) };
+    vector<vector<vector<int>>> dirMovedrPerPos(mapSize + 1, vector<vector<int>>(mapSize + 1, vector<int>(4, INT_MAX)));
+
+    priority_queue<Route, vector<Route>, Cmp> pq;
+
+    if (board[1][0] != 1) {
+        pq.push(Route(100, Pos(1, 0), Pos(1, 0)));
+    }
+    if (board[0][1] != 1) {
+        pq.push(Route(100, Pos(0, 1), Pos(0, 1)));
+    }
+
+    dirMovedrPerPos[0][0][0] = 100;
+    dirMovedrPerPos[0][0][1] = 100;
+
+    while(1) {
+        Route pre = pq.top();
+        pq.pop();
+
+        if (pre.pos == endPos) {
+            return pre.cost;
+        }
+
+        for (int i = 0; i < 4; i++) {
+            Route cur = pre;
+            cur.pos += dir[i];
+
+            if (cur.prevDir == dir[i]) {
+                cur.cost += 100;
+            }
+            else {
+                cur.cost += 600;
+            }
+
+            if ( cur.pos.x < 0 || cur.pos.x > mapSize || cur.pos.y < 0 || cur.pos.y > mapSize || dirMovedrPerPos[cur.pos.x][cur.pos.y][i] < cur.cost || board[cur.pos.x][cur.pos.y] || cur.prevDir != dir[i]) {
+                continue;
+            }
+
+            dirMovedrPerPos[cur.pos.x][cur.pos.y][i] = cur.cost;
+            cur.prevDir = dir[i];
+            pq.push(cur);
+        }
+    }
+}
