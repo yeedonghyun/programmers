@@ -1,0 +1,31 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+long long solution(vector<int> sequence) {
+    vector<long long> pulse_1(sequence.size()), pulse_2(sequence.size());
+    
+    for (int i = 0; i < sequence.size(); i++) {
+        if (i % 2 == 0) {
+            pulse_1[i] = (sequence[i] * -1);
+            pulse_2[i] = sequence[i];
+        }
+        else {
+            pulse_1[i] = sequence[i];
+            pulse_2[i] = (sequence[i] * -1);
+        }
+    }
+
+    vector<long long> answer_1(sequence.size()), answer_2(sequence.size());
+    answer_1[0] = pulse_1[0], answer_2[0] = pulse_2[0];
+    long long answer = max(answer_1[0], answer_2[0]);
+
+    for (int i = 1; i < sequence.size(); i++) {
+        answer_1[i] = max(answer_1[i - 1] + pulse_1[i], pulse_1[i]);
+        answer_2[i] = max(answer_2[i - 1] + pulse_2[i], pulse_2[i]);
+        answer = max(answer, max(answer_1[i], answer_2[i]));
+    }
+
+    return answer;
+}
