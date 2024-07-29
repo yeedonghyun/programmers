@@ -1,0 +1,53 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector<double> solution(int k, vector<vector<int>> ranges) {
+    vector<double> answers;
+    vector<double> points(1, k);
+    vector<double> areas;
+    
+    while (k > 1) {
+        if (k % 2 == 0) {
+            k /= 2;
+        }
+        else {
+            k = k * 3 + 1;
+        }
+        points.push_back(k);
+    }
+
+    double sumOfArea = 0;
+    for (int i = 0; i < points.size() - 1; i++) {
+        double Min = min(points[i], points[i + 1]);
+        double Max = max(points[i], points[i + 1]);
+
+        double area = ((Max - Min) / 2) + Min;
+        areas.push_back(area);
+        sumOfArea += area;
+    }
+
+    for (int i = 0; i < ranges.size(); i++) {
+        if (ranges[i][0] == 0 && ranges[i][1] == 0) {
+            answers.push_back(sumOfArea);
+        }
+        else {
+            int end = areas.size() + ranges[i][1];
+
+            if (ranges[i][0] > end) {
+                answers.push_back(-1);
+            }
+            else {
+                double answer = 0;
+                for (int j = ranges[i][0]; j < end; j++) {
+                    answer += areas[j];
+                }
+                answers.push_back(answer);
+            }
+        }
+    }
+
+    return answers;
+}
