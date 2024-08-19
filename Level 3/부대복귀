@@ -1,0 +1,46 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> solution(int n, vector<vector<int>> roads, vector<int> sources, int destination) {
+    vector<int> answer;
+    vector<vector<int>> routes(n + 1);
+    vector<int> shortestPathEachNode2Destination(n + 1, -1);
+    vector<bool> visit(n + 1, false);
+
+    for (auto a : roads) {
+        routes[a[0]].push_back(a[1]);
+        routes[a[1]].push_back(a[0]);
+    }
+    vector<int> prevPoses;
+    prevPoses.push_back(destination);
+    visit[destination] = true;
+    int loop_cnt = 1;
+    int visited_cnt = 1;
+    shortestPathEachNode2Destination[destination] = 0;
+
+    while (!prevPoses.empty() && visited_cnt != n) {
+        vector<int> curPoses;
+       
+        for (auto p : prevPoses) {
+            for (auto curPos : routes[p]) {
+                if (!visit[curPos]) {
+                    visited_cnt++;
+                    visit[curPos] = true;
+                    shortestPathEachNode2Destination[curPos] = loop_cnt;
+                    curPoses.push_back(curPos);
+                }
+            }
+
+        }
+        prevPoses = curPoses;
+        loop_cnt++;
+    }
+
+    for (auto a : sources) {
+        answer.push_back(shortestPathEachNode2Destination[a]);
+    }
+
+    return answer;
+}
